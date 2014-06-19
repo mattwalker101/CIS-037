@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+//Homework exercise 3.39, Matthew Walker
+
+int main()
+{
+
+int counter = 1;
+int pairCount = 1;
+
+// set loop to make 4 pairs of lines
+
+while (pairCount <= 4) {
+
+// set loop to create each line
+counter = 1;
+while (counter <= 8) {
+printf("%s", "* ");
+counter++;
+}
+puts("");
+
+counter = 1;
+printf("%s", " "); //
+while (counter <= 8) {
+printf("%s", "* ");
+counter++;
+}
+puts("");
+
+pairCount++;
+}
+
+}
+
+
