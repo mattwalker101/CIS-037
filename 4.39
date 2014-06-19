@@ -1,0 +1,48 @@
+#include <stdio.h>
+
+int main()
+{
+
+// Homework 4.39, 6/19/14, Matthew Walker
+// World population growth
+// Total population today approx. 7.17 billion
+// Population growth rate is 81 million per year or 1.2% per year
+// Assuming growth rate stays constant
+
+// Print table for next 75 years of population growth (year/EndofYearPopulation/NumericalIncrease that year)
+
+int year, yearDoubles = 0, trigger = 0;
+float totalPopulation, populationIncrease, doublePopulation;
+
+totalPopulation = 7.17E9;
+doublePopulation = 2*totalPopulation;
+
+printf("Year%18s%28s\n", "Total Population", "Population Growth");
+
+for (year = 1; year <= 75; year++) {
+
+	populationIncrease = (totalPopulation * 0.012);
+	totalPopulation = totalPopulation + populationIncrease;
+
+	// first column
+	printf("%d", (year+2014) );
+
+	//second column = end of year population
+	printf("%18.0f", totalPopulation);
+
+	// third column = population increase over year
+	printf("%28.0f\n", populationIncrease);
+
+
+// Determine what year the population will double today's if growth stays constant.
+	if (trigger != 1 && totalPopulation >= doublePopulation) {
+			yearDoubles = 2014 + year;
+			printf("ding ding ding\n");
+			trigger++;
+	
+	}
+}
+
+printf("At current growth rates, the world population will double in %d.\n", yearDoubles);
+
+}
