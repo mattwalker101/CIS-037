@@ -1,0 +1,36 @@
+// Test Exercise 2.33
+// Matthew Walker, Due 6/25/14, Windows VS2012
+// Daily driving cost calculator
+
+#include <stdio.h>
+
+int main()
+{
+
+// Gather miles/day, cost/gallon of gas, average miles per gallon, parking fees/day, tolls/day
+// Display users cost per day of driving
+
+float miles, gallonCost, gallonMileage, parkingCost, tollCost, totalCost;
+
+printf("Tell me how many miles you drive each day... ");
+scanf_s("%f", &miles);
+
+printf("What is the cost of a gallon of gas? ");
+scanf_s("%f", &gallonCost);
+
+printf("Average miles per gallon of gas? ");
+scanf_s("%f", &gallonMileage);
+
+printf("How much does parking cost per day? ");
+scanf_s("%f", &parkingCost);
+
+printf("Cost of tolls each day? ");
+scanf_s("%f", &tollCost);
+
+// Calculate cost of gas [(miles/gallonMileage)*gallonCost] and add parking & tolls to get totalCost
+
+totalCost = ( (miles/gallonMileage)*gallonCost ) + parkingCost + tollCost;
+
+printf("\nYour daily driving cost is :$%.2f\n", totalCost);
+
+}
