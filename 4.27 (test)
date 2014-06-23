@@ -1,0 +1,26 @@
+// Test exercise 4.27
+// Matthew Walker, Due 6/25/14, Windows VS2012
+// Pythagorean triples
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	int side1, side2, hypo;
+	
+	// Generate all integer values that satisify the pythagorean triples (a^2+b^2 = c^2)
+
+	for (side1 = 1; side1 <= 500; side1++) {
+
+		for (side2 = 1; side2 <= 500; side2++) {
+
+			for (hypo = 1; hypo <= 500; hypo++) {
+				if ( (side1*side1 + side2*side2) == (hypo*hypo) ) {
+					printf("%d%10d%20d\n", side1, side2, hypo);
+				}
+			}
+
+		}
+	}
+}
