@@ -1,19 +1,25 @@
+// Homework 4.31
+// Matthew Walker, Due 6/23/14, Windows VS 2012
+// Take user input for # of rows in a diamond, and, using limited printf output, print a diamond pattern
+// 
+
+
 #include <stdio.h>
 
 int main()
 {
 
-	// Homework 4.31, 6/19/14, Matthew Walker
+int i, a, k, b, space;
 
-	int i, a, k, b, space;
-
+// Get user input
 puts("Enter a number of rows for your diamond: ");
 scanf_s("%d", &a);
 
+// Quick math to build half the diamond at a time
 a = (a/2)+1;
 space = a - 1;
 
-
+// Build top half by counting down from max # of spaces and counting up from one *
 for (k = 1; k <= a; k++) {
 	for (b = 1; b <= space; b++)
 		printf(" ");
@@ -23,6 +29,7 @@ for (k = 1; k <= a; k++) {
 	printf("\n");
 }
 
+//Build bottom half by reversing the above
 space = 1;
 
 for (k = 1; k <= a - 1; k++) {
