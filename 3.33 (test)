@@ -1,0 +1,26 @@
+// Test Exercise 3.33
+// Matthew Walker, Due 6/25/14, Windows VS2012
+// Create a hollow square of asterisks
+// Gather input for length of side of square, 
+
+#include <stdio.h>
+
+int main()
+{
+	int length, counterX, counterY;
+
+// Gather user input
+	printf("How big of a square do you want today? ");
+	scanf_s("%d", &length);
+
+//	printf("%d", length);
+// create square based on length
+
+	for (counterX = 1; counterX <= length; counterX++) {
+		for (counterY = 1; counterY <= length; counterY++) {
+			printf("*");
+		}
+		printf("\n");
+	}
+
+}
