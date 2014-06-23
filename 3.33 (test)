@@ -17,7 +17,17 @@ int main()
 // create square based on length
 
 	for (counterX = 1; counterX <= length; counterX++) {
-		for (counterY = 1; counterY <= length; counterY++) {
+		if (counterX == 1 || counterX == length) {
+			for (counterY = 1; counterY <= length; counterY++) {
+				printf("*");
+				}
+			}
+	
+		else {
+			printf("*");
+			for (counterY = 2; counterY <= length-1; counterY++) {
+				printf(" ");
+			}
 			printf("*");
 		}
 		printf("\n");
