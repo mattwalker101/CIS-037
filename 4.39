@@ -1,22 +1,27 @@
+// Homework 4.39
+// Matthew Walker, Due 6/23/14, Windows VS2012
+// World population growth
+// Print table for next 75 years of population growth (year/EndofYearPopulation/NumericalIncrease that year)
+
+
 #include <stdio.h>
 
 int main()
 {
 
-// Homework 4.39, 6/19/14, Matthew Walker
-// World population growth
 // Total population today approx. 7.17 billion
 // Population growth rate is 81 million per year or 1.2% per year
 // Assuming growth rate stays constant
 
-// Print table for next 75 years of population growth (year/EndofYearPopulation/NumericalIncrease that year)
 
 int year, yearDoubles = 0, trigger = 0;
 float totalPopulation, populationIncrease, doublePopulation;
 
+// set the total population and a placeholder for double the population
 totalPopulation = 7.17E9;
 doublePopulation = 2*totalPopulation;
 
+// print the table
 printf("Year%18s%28s\n", "Total Population", "Population Growth");
 
 for (year = 1; year <= 75; year++) {
