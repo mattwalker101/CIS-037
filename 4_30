@@ -1,9 +1,13 @@
+
+// Homework exercise 4.30
+// Matthew Walker, Due 6/23/14, Windows VS2012
+// Receive user input of letter grades and store a count of each grade until EOF sequence using nested if-else
+// Then display a table of the totals
+
 #include <stdio.h>
 
 int main()
 {
-
-// Homework exercise 4.30
 
 int grade;
 int aCount = 0;
@@ -16,14 +20,6 @@ puts("Enter the letter grades.");
 puts("Enter the EOF character to end input.");
 
 // loop until user types end-of-file sequence
-
-
-printf("\nTotals for each letter grade are: \n");
-printf("A: %d\n", aCount);
-printf("B: %d\n", bCount);
-printf("C: %d\n", cCount);
-printf("D: %d\n", dCount);
-printf("F: %d\n", fCount);
 
 while ( (grade = getchar() ) != EOF) {
 
