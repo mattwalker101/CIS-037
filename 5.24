@@ -1,0 +1,49 @@
+// Homework 5.24
+// Matthew Walker, Due 6/?/14, Windows VS2012
+// Temperature conversions
+
+
+#include <stdio.h>
+
+int celsius (int temp);
+int fahrenheit (int temp);
+
+int main()
+{
+
+	int temp;
+
+// generate a table of conversions from 0-100 for both scales
+// First do C to F as a table
+
+	printf("Celsius -> Fahrenheit\n");
+
+	for (temp = 0; temp <= 100; temp++) {
+		printf("%d C = %d F\t", temp, celsius(temp)  );
+		if (temp % 5 == 0) {      //count by 5s to generate a smaller table
+			puts("");
+		}
+	}
+
+	printf ("\n Fahrenheit -> Celsius\n");
+
+	for (temp = 32; temp <= 212; temp++) {
+		printf("%d F = %d C\t", temp, fahrenheit(temp)  );
+		if (temp % 5 == 0) {
+			puts("");
+		}
+	}
+
+
+}
+
+
+int celsius (int temp)
+{
+	return (temp*1.8 + 32);
+}
+
+int fahrenheit (int temp)
+{
+	return ( (temp-32)*0.55 );
+}
