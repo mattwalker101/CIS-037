@@ -1,0 +1,34 @@
+/* Homework 5.34
+ * Matthew Walker, Due ?, Windows VS2012
+ * Recursive exponentiation
+ 
+*/
+
+#include <stdio.h>
+
+unsigned long long int power ( int base, unsigned int exponent );
+
+int main()
+{
+// get input for base and exponent
+
+  printf("Computing base^exponent\n");
+  printf("Enter a base: ");
+  scanf_s("%d", &base);
+  printf("Enter an exponent (>=1): ");
+  scanf_s("%d", %exponent);
+  
+  printf("\n%d^%d = %d\n", base, exponent, power(base, exponent) );
+  
+}
+
+unsigned long long int power ( int base, unsigned int exponent )
+{
+  if (exponent == 1) {
+    return (base)
+  }
+  else {
+    return (base, power (base, exponent-1) )
+  }
+}
+
