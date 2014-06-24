@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+// Factorial program
+
+unsigned long long int factorial ( unsigned int number );
+
+int main()
+{
+
+	unsigned int counter;
+
+	for (counter = 0; counter <= 21; counter++) {
+		printf("%u! = %llu\n", counter, factorial(counter) );
+	}
+	
+}
+
+unsigned long long int factorial ( unsigned int number )
+{
+	if (number <= 1) {
+		return(1);
+	}
+	else {
+		return (number * factorial (number - 1) );
+	}
+
+}
