@@ -1,0 +1,36 @@
+/* Test 5.39
+ * Matthew Walker, Due ?, Windows VS2012
+ * Recursive greatest common denominator
+*/
+
+#include <stdio.h>
+
+int gcd (int x, int y);
+
+int main()
+{
+
+	int x, y;
+
+// gather input of 2 terms to compare
+
+	printf("Enter two terms to find the greatest common denominator between them.\n");
+	printf("Enter X: ");
+	scanf_s("%d", &x);
+	printf("Enter Y: ");
+	scanf_s("%d", &y);
+
+// Call function and print results
+	printf("\nThe greatest common denominator between %d and %d is: %d\n", x, y, gcd(x,y) );
+	
+}
+
+int gcd (int x, int y)
+{
+	if (y == 0) {
+		return (x);
+	} else {
+		return (gcd (y, x%y) );
+	}
+
+}
