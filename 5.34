@@ -10,25 +10,30 @@ unsigned long long int power ( int base, unsigned int exponent );
 
 int main()
 {
+	int base;
+	unsigned int exponent;
+
 // get input for base and exponent
 
   printf("Computing base^exponent\n");
   printf("Enter a base: ");
   scanf_s("%d", &base);
-  printf("Enter an exponent (>=1): ");
-  scanf_s("%d", %exponent);
+  printf("Enter an exponent >=1: ");
+  scanf_s("%d", &exponent);
   
+// generate answer by calling power function
   printf("\n%d^%d = %d\n", base, exponent, power(base, exponent) );
   
 }
 
 unsigned long long int power ( int base, unsigned int exponent )
 {
-  if (exponent == 1) {
-    return (base)
-  }
-  else {
-    return (base, power (base, exponent-1) )
-  }
+	if (exponent == 1) {
+		return (base);
+	}
+	else {
+		return (base * power (base, exponent-1) );
+	}
+  
 }
 
