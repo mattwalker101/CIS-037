@@ -1,5 +1,5 @@
 /* Homework 6.14
- * Matthew Walker, Due ?, Windows VS2012
+ * Matthew Walker, Due 6/30/14, Windows VS2012
  * Computing Mean, Median and Mode
  */
 
@@ -128,7 +128,7 @@ void bubbleSort(  int a[] )
 	unsigned int hold;
 
 	for ( pass = 1; pass < SIZE; ++pass ) {
-		for ( j = 0; j < SIZE; ++j ) {
+		for ( j = 0; j < SIZE - 1; ++j ) {
 			if ( a[ j ] > a [ j + 1 ] ) {
 				hold = a[ j ];
 				a[ j ] = a[ j + 1 ];
