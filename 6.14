@@ -91,7 +91,6 @@ void mode( unsigned int freq[], const unsigned int answer[] )
 	unsigned int h;	// counter for displaying histograms freq array values
 	unsigned int largest = 0; // represents largest frequency
 	unsigned int modeValue = 0; // represents most frequent response
-	unsigned int modeTieValue [ 9 ] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 }; // to store 
 
 	printf( "\n%s\n%s\n%s\n", 
 			"********", " Mode", "********" );
@@ -117,11 +116,7 @@ void mode( unsigned int freq[], const unsigned int answer[] )
 			largest = freq[ rating ];
 			modeValue = rating;
 		}
-
-		// if mode is a tie, make a special note of that
-		if ( freq[ rating ] == largest ) {
-			modeTieValue [ rating ] = rating;
-		
+				
 		//output histogram bar for frequency value
 		for ( h = 1; h <= freq[ rating ]; ++h ) {
 			printf( "%s", "*");
@@ -132,14 +127,16 @@ void mode( unsigned int freq[], const unsigned int answer[] )
 	
 	//display the mode value
 	printf( "\nThe mode is the most frequent value.\n"
-			"The mode occurred with elements... \n");
+			"The mode occurred with values... \n");
+		
+	
+	// if mode is a tie, make a special note of that
 		
 	for ( rating = 1; rating <= 9; ++rating) {
-		printf("%u", modeTieValue [ rating ] );
-	}
-
-	printf("\nwhich occurred %u times.", largest);
-		
+		if ( freq[ rating ] == largest ) {
+			printf( "%u", rating );
+			printf(" which occurred %u times...\n", freq[ rating ]);
+		}	
 	}	
 		
 } // end function mode
