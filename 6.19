@@ -1,0 +1,32 @@
+/* Homework 6.19
+ * Matthew Walker, Due 6/30/14, Windows VS2012
+ * Simulate rolling 2 dice, calculate the sum, roll 36000 times, tally times each sum appears
+ */
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#define SIZE 13
+
+int main()
+{
+	size_t sum; // sum of two dice
+	unsigned int roll; // roll counter 1-36000
+	unsigned int frequency[ SIZE ] = { 0 }; // clear counts
+
+	srand( time( NULL ) ); // seed random number generator
+
+	// roll dice 36000 times
+	for ( roll = 1; roll <= 36000; ++roll ) {
+		sum = ( 1 + rand() % 6 ) + ( 1 + rand() % 6 );
+		++frequency[ sum ];
+	}
+
+	printf( "%s%17s\n", "Sum", "Frequency" );
+
+	for ( sum = 2; sum < SIZE; ++sum ) {
+		printf ("%4d%17d\n", sum, frequency [ sum ] );
+	}
+
+}
