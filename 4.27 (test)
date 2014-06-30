@@ -11,10 +11,13 @@ int main()
 	
 	// Generate all integer values that satisify the pythagorean triples (a^2+b^2 = c^2)
 
+	// First start a loop for the side1, counting to 500
 	for (side1 = 1; side1 <= 500; side1++) {
 
+		// Start loop for side2, counting to 500	
 		for (side2 = 1; side2 <= 500; side2++) {
-
+		
+			//Start loop for hypoteneuse
 			for (hypo = 1; hypo <= 500; hypo++) {
 				if ( (side1*side1 + side2*side2) == (hypo*hypo) ) {
 					printf("%d%10d%20d\n", side1, side2, hypo);
