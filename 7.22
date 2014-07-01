@@ -4,6 +4,73 @@
  * Place an X in each square in the path, and print the maze after each move
  */
  
- #include <stdio.h>
- 
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 12
+
+int main ()
+{
+
+	size_t i, j; 
+	size_t row = 2, col = 0;
+
+// initialize maze array
+	char maze[ SIZE ][ SIZE ] = {
+{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
+{ '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#' },
+{ '.', '.', '#', '.', '#', '.', '#', '#', '#', '#', '.', '#' },
+{ '#', '#', '#', '.', '#', '.', '.', '.', '.', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '.' },
+{ '#', '#', '#', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '.', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '#', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '#' },
+{ '#', '#', '#', '#', '#', '#', '.', '#', '#', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#' },
+{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' } };
+
+
+
+// print maze with 'X' at starting location
+puts("");
+
+maze[ row ][ col ] = 'X'; 
+
+while ( col < 11 ) {
+
+	for ( i = 0; i < SIZE; ++i ) {
+		for ( j = 0; j < SIZE; ++j ) {
+			printf( " %c", maze[ i ][ j ] );
+		}
+		puts("");
+	}
+
+	printf("row|col: %d%2d\n", row, col );
+
+	// move one step
+
+	if ( maze[ row ][ col + 1 ] == '.' ) {
+		++col;
+		maze[ row ][ col ] = 'X';
+	} else if ( maze[ row - 1 ][ col ] == '.' ) {
+		--row;
+		maze[ row ][ col ] = 'X';
+	} else if ( maze[ row ][ col - 1 ] == '.' ) {
+		--col;
+		maze[ row ][ col ] = 'X';
+	} else if ( maze[ row + 1 ][ col ] == '.' ) {
+		++row;
+		maze[ row ][ col ] = 'X';
+	} else if (row == 2 && col == 0) {
+		printf( "Stuck at starting location... Nowhere to go! :(\n");
+	}
+
+
+	printf( "Press return to go to next step...\n" );
+	getchar();
+
+}
+
+}
+
  
