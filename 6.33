@@ -51,13 +51,19 @@ size_t binarySearch( const int b[], int searchKey, size_t low, size_t high )
 
 	printRow ( b, low, middle, high );
 
+	if ( low >= high ) {
+		return -1;
+	}
+
 	if ( searchKey == b[ middle ] ) {
 		return middle;
 	} else if ( searchKey < b[ middle ] ) {
+		printf( "middle|low|high: %d| %d| %d\n", b[ middle ], low, high );
 		return (binarySearch ( b, searchKey, low, middle-1 ));
 	} else if ( searchKey > b[ middle ] ) {
+		printf( "middle|low|high: %d| %d| %d\n", b[ middle ], low, high );
 		return ( binarySearch ( b, searchKey, middle+1 , high ));
-	} else
+	} else  
 	{
 		return -1;
 	} 
@@ -68,37 +74,36 @@ return -1;
 
 /*
 // function to perform binary search of an array
-size_t binarySearch(const int b[], int searchKey, size_t low, size_t high)
-{
-	int middle; // variable to hold middle element of array
-
-	// loop until low subscript is greater than high subscript
-	while ( low <= high ) {
-
-		// determine middle element of subarray being searched
-		middle = ( low + high ) / 2;
-
-		// display subarray used in this loop iteration
-		printRow( b, low, middle, high );
-
-		// if searchKey matched middle element, return middle
-		if ( searchKey == b[ middle ] ) { 
-			return middle; 
-		} // end if 
-
-		// if searchKey less than middle element, set new high
-		else if ( searchKey < b[ middle ] ) { 
-			high = middle - 1; // search low end of array 
-		} // end else if 
-
-			// if searchKey greater than middle element, set new low
-		else { 
-			low = middle + 1; // search high end of array 
-		} // end else 
-} // end while
- 
-return -1; // searchKey not found
-} // end function binarySearch
+* size_t binarySearch(const int b[], int searchKey, size_t low, size_t high)
+* {
+*	int middle; // variable to hold middle element of array
+*
+*	// loop until low subscript is greater than high subscript
+*	while ( low <= high ) 
+*
+*		// determine middle element of subarray being searched
+*		middle = ( low + high ) / 2;
+*
+*		// display subarray used in this loop iteration
+*		printRow( b, low, middle, high );
+*
+*		// if searchKey matched middle element, return middle
+*			return middle; 
+*		} // end if 
+*
+*		// if searchKey less than middle element, set new high
+*		else if ( searchKey < b[ middle ] ) { 
+*			high = middle - 1; // search low end of array 
+*		} // end else if 
+*
+*			// if searchKey greater than middle element, set new low
+*		else { 
+*			low = middle + 1; // search high end of array 
+*		} // end else 
+*} // end while
+* 
+*return -1; // searchKey not found
+*} // end function binarySearch
 */
 
 // Print a header for the output
