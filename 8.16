@@ -5,7 +5,7 @@
  */
  
 
-
+#define SIZE 80
 
 int main()
 {
@@ -14,11 +14,15 @@ char *text [ SIZE ]
 
 
 // Input a line of text and a search string from the keyboard
-     printf( "Enter a line of text to be searched...\n" );
-     scanf_s( "%79s", text );
+	printf( "Enter a line of text to be searched...\n" );
+	scanf_s( "%79s", text );
 
+	printf( "\nEnter a search string...\n" );
+	scanf_s( "%79s", search );
 
 // using strstr function, locate first occurence of search string and assign location to char *searchPtr
+
+
 
 // if search string found, print remainder of the line of text beginning with the search string
 
