@@ -10,69 +10,60 @@
  
 #include <stdio.h>
  
-#define PI 3.14156
+#define PI 3.1415
 
-size_t printMenu ( size_t choice );
-void findCircumference( double r, double cir );
-void findArea( double r, double area );
-void findVolume( double r, double volume );
+void findCircumference( double r );
+void findArea( double r );
+void findVolume( double r );
  
 int main( void )
 {
 	// initialize an array of pointers to the functions that take 2 double arguments and return void
-	void( ( *f[ 3 ] )( double, double ) ) = { findCircumference, findArea, findVolume };
+	void( ( *f[ 3 ] )( double ) ) = { findCircumference, findArea, findVolume };
 
-	size_t choice = 0;
-	double r = 0, cir = 0;
+	int choice;
+	double r;
 
-	printMenu ( choice );
+	printf("\nWelcome to a math-magical demonstration of awesomeness!!\n\n" );
 
-	while ( choice != 3)  {
-		printf( "\nTell me a non-zero number, any number, for the radius... ");
-		scanf_s( "%f", &r );
-
-		( *f[ choice ] )( r, cir );
+	printf( "Choose from the following options...\n" );
+	printf( "(0) finds circumference,\n(1) finds area,\n(2) finds volume\n");
+	printf( "(3) Go away! We are all done for now! :)\n");
+	scanf_s( "%d", &choice );
+	
+	while ( choice >= 0 && choice < 3 ) {
+		printf( "\nTell me a non-zero number for the radius... ");
+		scanf_s( "%lf", &r );
+		( *f[ choice ] )( r );
+		printf( "Choose from the following options...\n" );
+		printf( "(0) finds circumference,\n(1) finds area,\n(2) finds volume\n");
+		printf( "(3) Go away! We are all done for now! :)\n");
+		scanf_s( "%d", &choice );
 		
-		printMenu ( choice );
 	}
 
-	puts( "OK, we're done. Have a great day!\n" );
-	return;
+	puts( "\nOK, we're done. Have a great day!\n" );
+	return 0;
 
 }	// end main
 
-size_t printMenu ( size_t choice )
+void findCircumference( double r )
 {
-	printf( "Provide me with a radius and I can tell you either...\n" );
-	printf( "(0) the CIRCUMFERENCE of a circle with that radius,\n" );
-	printf( "(1) the AREA of a circle with that radius,\n" );
-	printf( "(2) the VOLUME of a sphere with that radius.\n" );
-	printf( "(3) none of the above... Go away! :)\n" );
-	printf( "Press 0 - 3 to choose which kind of math-magic to perform:  " );
-	getchar( choice );
-	return ( choice );
+	printf( "\n\tSo I am finding the CIRCUMFERENCE of a circle\n" );
+	printf( "\twith a radius of %.2f... \n", r );
+	printf( "\tAnd the circumference is %.2f\n\n", 2 * PI * r );
 }
 
-void findCircumference( double r, double cir )
+void findArea( double r )
 {
-	cir = 2 * PI * r;
-	printf( "\nSo I am finding the CIRCUMFERENCE of a circle\n" );
-	printf( "with a radius of %f... \n", r );
-	printf( "And the answer is %f.\n\n", cir );
+	printf( "\n\tSo I am finding the AREA of a circle\n" );
+	printf( "\twith a radius of %.2f... \n", r );
+	printf( "\tAnd the answer is %.2f\n\n", PI * r * r );
 }
 
-void findArea( double r, double area )
+void findVolume( double r )
 {
-	area = PI * r * r;
-	printf( "\nSo I am finding the AREA of a circle\n" );
-	printf( "with a radius of %f... \n", r );
-	printf( "And the answer is %f.\n\n", area );
-}
-
-void findVolume( double r, double volume )
-{
-	volume = ( ( 4 / 3 ) * PI * r * r * r );
-	printf( "\nSo I am finding the VOLUME of a sphere\n" );
-	printf( "with a radius of %f... \n", r );
-	printf( "And the answer is %f.\n\n", volume );
+	printf( "\n\tSo I am finding the VOLUME of a sphere\n" );
+	printf( "\twith a radius of %.2f... \n", r );
+	printf( "\tAnd the answer is %.2f\n\n", ( 4 * PI * r * r * r) / 3 );
 }
