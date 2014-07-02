@@ -1,5 +1,30 @@
 /* Homework 8.16
  * Matthew Walker, Due ?, Windows VS2012
+ * Searching for substrings within a string
  * 
  */
  
+
+
+
+int main()
+{
+
+char *text [ SIZE ]
+
+
+// Input a line of text and a search string from the keyboard
+     printf( "Enter a line of text to be searched...\n" );
+     scanf_s( "%79s", text );
+
+
+// using strstr function, locate first occurence of search string and assign location to char *searchPtr
+
+// if search string found, print remainder of the line of text beginning with the search string
+
+// use strstr again to locate the next occurence of the search string
+// (second call to strstr should use searchPtr+1 as its first argument
+// if a second occurence is found, print the remainder of the line of text beginning with the second occurence
+
+
+}
