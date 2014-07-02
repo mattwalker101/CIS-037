@@ -1,0 +1,32 @@
+/* Homework 7.30
+ * Matthew Walker, Due ?, Windows VS2012
+ * Using a text-based, menu-driven program to allow user to input a radius,
+ * and calculate either the circumference of a circle, the area of a circle, or
+ * the volume of a sphere by using an array of function pointers in which each pointer
+ * represents a function that returns void and receives a double parameter.
+ * Each function should display which calculation was performed, value of the radius,
+ * and the result of the calculation
+ */
+ 
+ #include <stdio.h>
+ 
+ void findCircumference( int r, int cir );
+ void findArea( int r, int area );
+ void findVolume( int r, int volume );
+ 
+ int main( void )
+ {
+	 // initialize an array of pointers to the functions that take an int argument and return void
+	 void( *f[ 3 ] )( int ) = { findCircumference, findArea, findVolume };
+
+	 size_t choice;
+
+	 printf( "This program can calculate
+	 do {
+		printf( "
+
+
+
+
+	 }
+ }
