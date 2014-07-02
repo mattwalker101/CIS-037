@@ -1,0 +1,137 @@
+/* Homework 7.22
+ * Matthew Walker, Due 7/2/14, Windows VS2012
+ * Traverse a 12 x 12 maze by following the right side wall, using recursive function mazeTraverse
+ * Place an X in each square in the path, and print the maze after each move
+ */
+ 
+#include <stdio.h>
+#include <stdlib.h>
+
+// Start coordinates
+#define XSTART 2
+#define YSTART 0
+
+// Define directions as integers
+#define DOWN 0
+#define RIGHT 1
+#define UP 2
+#define LEFT 3
+
+void mazeTraverse ( char maze[ 12 ][ 12 ], int xCor, int yCor, int dir );
+int checkForEdge ( int x, int y );
+int correctMove ( char maze[ ][ 12 ], int r, int c );
+void displayMaze ( char maze[ ][ 12 ] );
+
+
+int main ( void )
+{
+
+// initialize maze array
+	char maze[ 12 ][ 12 ] = {
+{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' },
+{ '#', '.', '.', '.', '#', '.', '.', '.', '.', '.', '.', '#' },
+{ '.', '.', '#', '.', '#', '.', '#', '#', '#', '#', '.', '#' },
+{ '#', '#', '#', '.', '#', '.', '.', '.', '.', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '#', '#', '#', '.', '#', '.', '.' },
+{ '#', '#', '#', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '.', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '#', '.', '#', '.', '#', '.', '#', '.', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '.', '.', '.', '.', '#', '.', '#' },
+{ '#', '#', '#', '#', '#', '#', '.', '#', '#', '#', '.', '#' },
+{ '#', '.', '.', '.', '.', '.', '.', '#', '.', '.', '.', '#' },
+{ '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#' } };
+
+
+mazeTraverse ( maze, XSTART, YSTART, RIGHT );
+
+return 0;
+
+}   // end main
+
+void mazeTraverse ( char maze[ 12 ][ 12 ], int xCor, int yCor, int dir )
+{
+    static int flag = 0;
+    
+    maze[ xCor ][ yCor ] = 'X';     // mark starting location
+    displayMaze ( maze );
+    
+    //check if maze is completed
+    if ( checkForEdge( xCor, yCor ) && xCor != XSTART && yCor != YSTART ) {
+        printf("I took the path less traveled\nAnd it has made all the difference.\nSuccess!!\n\n");
+        return;
+    }
+    else if ( xCor == XSTART && yCor == YSTART && flag == 1 ) {
+        printf("Alas, I am arrived at the beginning once more... \n\n");
+        return;
+    }
+    // move to the next available position
+    else {
+        int counter;
+        int nextMove;
+        flag = 1;
+        
+        for ( nextMove = dir, counter = 0; counter < 4; counter++, nextMove++, nextMove %= 4 ) {
+            switch ( nextMove ) {
+                case DOWN:
+                    if ( correctMove ( maze, xCor + 1, yCor ) ) {
+                        mazeTraverse ( maze, xCor + 1, yCor, LEFT );
+                        return;
+                    }
+                    break;
+                case RIGHT:
+                    if ( correctMove ( maze, xCor, yCor + 1 ) ) {
+                        mazeTraverse ( maze, xCor, yCor + 1, DOWN );
+                        return;
+                    }
+                    break;
+                case UP:
+                    if ( correctMove ( maze, xCor - 1, yCor ) ) {
+                        mazeTraverse ( maze, xCor - 1, yCor, RIGHT );
+                        return;
+                    }
+                    break;
+                case LEFT:
+                    if ( correctMove ( maze, xCor, yCor - 1 ) ) {
+                        mazeTraverse ( maze, xCor, yCor - 1, UP );
+                        return;
+                    }
+                    break;      
+            }
+        }
+    }
+}
+
+int checkForEdge ( int x, int y )
+{
+    // for invalid coordinates
+    if ( ( x == 0 || x == 11 ) && ( y >= 0 && y <= 11 ) ) {
+        return 1;
+    }
+    else if ( ( y == 0 || y == 11 ) && (x >= 0 && x <= 11 ) ) {
+        return 1;
+    }
+    else {      // for valid coordinates
+        return 0;
+    }   
+}
+
+
+int correctMove ( char maze[ ][ 12 ], int r, int c )
+{
+    return ( r >= 0 && r <= 11 && c >= 0 && c <= 11 && maze[ r ][ c ] != '#' );
+}
+
+void displayMaze ( char maze[ ][ 12 ] )
+{
+    int x, y;
+    
+    for ( x = 0; x < 12; x++ ) {
+        for ( y = 0; y < 12; y++ ) {
+            printf("%c ", maze[ x ][ y ] );
+        }
+        puts( "" );
+    }
+    printf( "\nPress Return to see the next move...\n");
+    getchar();
+}
+
