@@ -1,0 +1,68 @@
+/* Book exercise 8.13, Just for the heck of it!
+ * Matthew Walker, Windows VS2012
+ * This program calculates the Pig Latin form of strings.
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 20
+
+void printLatinWord( char *toConvert );
+
+int main()
+{
+	char sentence[ SIZE ];
+	char *word;
+
+	printf( "Write me a sentence... \n");
+
+	fgets( sentence, SIZE, stdin );
+
+	word = strtok_s( sentence, " ", stdin ); // to get a token from 'sentence', use space as delimiter
+
+	printf( "\nThe token from the sentence is: %s", word );
+	printf( "\nThe token converted to Pig Latin format is: " );
+
+	printLatinWord( word );
+
+	while ( word != NULL ) {
+		word = strtok( NULL, " " );
+
+		if ( word != NULL ) {
+			printf( "\nThe next token from the sentence is: %s", word );
+			printf( "\nThe token converted to Pig Latin format is: ");
+
+			printLatinWord( word );
+		} else {
+			return ( 0 );
+		}
+	}
+}
+
+void printLatinWord( char *toConvert )
+{
+	char Latin[ 20 ];
+
+	int loop, position;
+	int length;
+
+	length = strlen( toConvert );
+
+	position = 0;
+
+	for ( loop = 1; loop < length; loop++ ) {	//copy all characters except one at 1st position
+		Latin[ position ] = toConvert[ loop ];
+		position++;
+	}
+
+	Latin[ position++ ] = toConvert[ 0 ];	// add 1st character at the end of the string
+
+	Latin[ position ] = '\0';
+
+	strcat( Latin, "ay" );	// add "ay" to the character array, at the end
+
+	printf( "%s\n\n", Latin );
+}
+
+
