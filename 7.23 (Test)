@@ -11,20 +11,20 @@
 
 #define SIZE 12
 
-void mazeGenerator ( char maze [ SIZE ][ SIZE ], int xStart, int xEnd );
+void mazeGenerator ( char maze [ ][ SIZE ] );
 
 int main()
 {
 	
 	char maze[ SIZE ][ SIZE ];
-	int xStart = 0, xEnd = 0;
+	
 	int x, y;
 	srand( time( NULL ) );
 
 	printf( "I will make for you a special maze.\nPress Return to see it!\n" );
 	getchar( );
 
-	mazeGenerator ( maze, xStart, xEnd );
+	mazeGenerator ( maze );
 
 		// display the maze
 	for ( x = 0; x < SIZE; x++ ) {
@@ -35,18 +35,19 @@ int main()
 	}
 }
 
-void mazeGenerator ( char maze [ SIZE ][ SIZE ], int xStart, int xEnd )
+void mazeGenerator ( char maze [ ][ SIZE ] )
 {
 	int x, y;
+	int xStart, xEnd;
 
 	// fill the edges
 	for ( x = 0; x < SIZE; x++ ) {
-		maze [ x ][ 0 ] = '#';
-		maze [ x ][ 11 ] = '#';
+		maze [ 0 ][ x ] = '#';
+		maze [ 11 ][ x ] = '#';
 	}
-	for ( y = 0; x < SIZE; y++ ) {
-		maze [ 0 ][ y ] = '#';
-		maze [ 11 ][ y ] = '#';
+	for ( y = 0; y < SIZE; y++ ) {
+		maze [ y ][ 0 ] = '#';
+		maze [ y ][ 11 ] = '#';
 	}
 
 	//pick a start and end randomly
@@ -64,7 +65,7 @@ void mazeGenerator ( char maze [ SIZE ][ SIZE ], int xStart, int xEnd )
 		}
 	}
 
-	// give a small chance for a path by setting (xStart,1) & (xEnd, 10) a '.'
+	// give a small chance for a path by setting (xStart,1) & (xEnd, 10) = '.'
 	maze [ xStart ][ 1 ] = '.';
 	maze [ xEnd ][ 10 ] = '.';
 }
