@@ -1,4 +1,70 @@
 /* Test question 7.23
  * Matthew Walker, Windows VS2012
- *
+ * Create a randomly generated maze
+ * mazeGenerator should take a double-subscripted array as argument
+ * and produce a starting and ending point, which can be tested with mazeTraverse
  */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define SIZE 12
+
+void mazeGenerator ( char maze [ SIZE ][ SIZE ], int xStart, int xEnd );
+
+int main()
+{
+	
+	char maze[ SIZE ][ SIZE ];
+	int xStart = 0, xEnd = 0;
+	int x, y;
+	srand( time( NULL ) );
+
+	printf( "I will make for you a special maze.\nPress Return to see it!\n" );
+	getchar( );
+
+	mazeGenerator ( maze, xStart, xEnd );
+
+		// display the maze
+	for ( x = 0; x < SIZE; x++ ) {
+		for ( y = 0; y < SIZE; y++ ) {
+			printf( "%c ", maze[ x ][ y ] );
+		}
+		puts( "" );
+	}
+}
+
+void mazeGenerator ( char maze [ SIZE ][ SIZE ], int xStart, int xEnd )
+{
+	int x, y;
+
+	// fill the edges
+	for ( x = 0; x < SIZE; x++ ) {
+		maze [ x ][ 0 ] = '#';
+		maze [ x ][ 11 ] = '#';
+	}
+	for ( y = 0; x < SIZE; y++ ) {
+		maze [ 0 ][ y ] = '#';
+		maze [ 11 ][ y ] = '#';
+	}
+
+	//pick a start and end randomly
+
+	xStart = rand() % 10;
+	xEnd = rand() % 10;
+
+	maze [ xStart ][ 0 ] = '.';
+	maze [ xEnd ][ 11 ] = '.';
+
+	// fill in some randomness in the middle
+	for ( x = 1; x < ( SIZE - 1 ); x++) {
+		for ( y = 1; y < ( SIZE - 1 ); y++) {
+			maze [ x ][ y ] = ( ( rand() % 2 ) ? '#' : '.' );
+		}
+	}
+
+	// give a small chance for a path by setting (xStart,1) & (xEnd, 10) a '.'
+	maze [ xStart ][ 1 ] = '.';
+	maze [ xEnd ][ 10 ] = '.';
+}
