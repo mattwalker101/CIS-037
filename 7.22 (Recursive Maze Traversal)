@@ -58,6 +58,7 @@ void mazeTraverse ( char maze[ 12 ][ 12 ], int xCor, int yCor, int dir )
     //check if maze is completed
     if ( checkForEdge( xCor, yCor ) && xCor != XSTART && yCor != YSTART ) {
         printf("I took the path less traveled\nAnd it has made all the difference.\nSuccess!!\n\n");
+        printf( "\a" );
         return;
     }
     else if ( xCor == XSTART && yCor == YSTART && flag == 1 ) {
