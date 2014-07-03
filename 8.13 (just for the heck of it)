@@ -1,7 +1,8 @@
 /* Book exercise 8.13, Just for the heck of it!
  * Matthew Walker, Windows VS2012
  * This program calculates the Pig Latin form of strings.
- */
+ */ see fig 8.26 for strtok details
+ 
 
 #include <stdio.h>
 #include <string.h>
