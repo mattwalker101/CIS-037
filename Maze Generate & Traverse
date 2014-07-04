@@ -32,7 +32,7 @@ int main ( void )
 	srand( time ( NULL ) );
 
 // make a maze
-	printf( "Check out this maze I made special for you...\nPress return to see it!\n\n" );
+	printf( "Check out this maze I made special for you...\nPress return to watch me try to solve it!\n\n" );
 	getchar ();
 	xStart = mazeGenerator ( maze );
 
@@ -180,7 +180,7 @@ void displayMaze ( char maze[ ][ 12 ] )
         }
         puts( "" );
     }
-    printf( "\nPress Return to see the next move...\n");
+    printf( "\nPress Return to see my next move...\n");
     getchar();
 }
 
