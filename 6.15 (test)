@@ -1,0 +1,51 @@
+// Test 6.15
+// Matthew Walker, Windows VS2012
+// Duplicate elimination
+// Read in 20 numbers (each between 10 and 100)
+// As each number is read, print it only if its not a duplicate already read
+
+#include <stdio.h>
+
+#define SIZE 20
+
+int main( void )
+{
+	int numList[ SIZE ] = { 0 };
+
+	int loop;
+	int testDuplicate;
+	int count = 0;
+	int flagDuplicate;
+	int input;
+
+	printf( "Enter 20 numbers from 10 to 100:\n" );
+	// read 20 numbers
+	for ( loop = 0; loop <= SIZE - 1; loop++) {
+		flagDuplicate = 0;
+		scanf_s( "%d", &input );
+		// check if in valid range
+		while ( input < 10 || input > 100 ) {
+			printf ( "Invalid input. Enter a number between 10 and 100:\n" );
+			scanf_s( "%d", &input );
+		}
+		// test if duplicate
+		for ( testDuplicate = 0; testDuplicate < count; testDuplicate++ ) {
+			if ( input == numList[ testDuplicate ] ) {
+				flagDuplicate = 1;
+				break;
+			}
+		}
+
+		if ( !flagDuplicate ) {
+			numList[ count++ ] = input;
+		}
+	}
+
+	printf( "The non-duplicate values are: \n");
+	// display numList
+	for ( loop = 0; loop < SIZE && numList[ loop ] != 0; loop ++ ) {
+		printf( "%d ", numList[ loop ]);
+	}
+	puts( "" );
+	return 0;
+}
