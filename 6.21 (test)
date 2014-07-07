@@ -1,0 +1,81 @@
+// Test 6.21
+// Matthew Walker, Windows VS2012
+// Airline reservation system
+
+#include <stdio.h>
+
+
+
+int main()
+{
+
+	int flight[ 11 ] = { 0 };
+	int decision = 0;
+
+	int count = 0;
+	int firstClass = 1;
+	int economyClass = 6;
+	int response;
+
+	printf( "WELCOME TO MATTHEW'S AWESOME AIRLINE EXTRAVAGANZA!!!\n\n");
+
+	// loop until all tickets sold
+	while ( count < 10 ) {
+
+		printf( "\nPlease type 1 to reserve First Class\nOr, please type 2 for Economy.\n");
+		scanf_s( "%d", &response );
+
+		if ( response == 1 ) { // first class selected
+			if ( !flight[ firstClass ] && firstClass <= 5 ) { // is first class available?
+				printf( "Your assigned seat number is %d\n", firstClass );
+				flight[ firstClass++ ] = 1;
+				count++;
+			} else if ( firstClass > 5  && economyClass < 10 ) { // if economy available, then ask user
+				printf( "\nFirst class is sold out.\nWould you like a seat in economy class? (Press 1 for Yes)\n" );
+				scanf_s( "%d", decision );
+
+				printf( "%d", decision );
+
+				if ( decision == 1 ) { // if user wants economy, assign a seat
+					printf( "Your assigned seat number is: %d\n", economyClass );
+					flight[ economyClass++ ] = 1;
+					count++;
+				} else {
+					printf( "The next flight will depart in 3 hours.\n" );
+				}
+			}
+		} else if ( response == 2 ) {  // economy class selected
+			if ( !flight[ economyClass ] && economyClass <= 10 ) {  //is economy class available
+				printf( "Your assigned seat number is %d\n", economyClass );
+				flight[ economyClass++ ] = 1;
+				count++;
+			} else if ( economyClass > 10 && firstClass <= 5 ) {  // if only first class available
+				printf( "Economy class is full.\nWould you like a seat in first class? (Y or y for yes)\n" );
+				scanf_s ( "%s", decision );
+				if ( decision[ 0 ] == 'Y' || decision[ 0 ] == 'y' ) {
+					printf( "Your assigned seat number is %d\n", firstClass );
+					flight[ firstClass++ ] = 1;
+					count++;
+				}
+				else {
+					printf( "The next flight will depart in 3 hours.\n\n\n" );
+				}
+			}
+			else {
+				printf( "The next flight will depart in 3 hours.\n" );
+				}
+		} else {
+			printf( "\nPlease select a valid option.\n" );
+		}
+	}
+
+	printf( "All seats for this flight have been booked.\n");
+
+	return 0;
+}
+	
+
+
+
+
+
