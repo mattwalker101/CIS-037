@@ -12,31 +12,35 @@
 int main()
 {
 
-char text [ SIZE ];
-char search [ 20 ];
+char text [ SIZE ] = { 0 };
+char search [ 20 ] = { 0 };
 char *searchPtr;
 
 // Input a line of text and a search string from the keyboard
 	printf( "Enter a line of text to be searched...\n" );
-	scanf_s( "%s", &text );
-
+        int i = 0;
+        text[ i ] = getchar();
+        while ( ( text[ i ] != '\n' ) ) {
+            text[ ++i ] = getchar();
+        }
+	
 	printf( "\nEnter a search string...\n" );
-	scanf_s( "%s", &search );
-	puts( "");
+	scanf( "%15s", search );
+	puts( "" );
 
-// using strstr function, locate first occurence of search string and assign location to char *searchPtr
+// using strstr function, locate first occurrence of search string and assign location to char *searchPtr
 
 	searchPtr = strstr( text, search );
 	
 // if search string found, print remainder of the line of text beginning with the search string
 
 	if ( searchPtr ) {
-		printf( "The remainder of the line beginning with %s\nThe first occurence of %s", search, searchPtr );
+		printf( "The remainder of the line beginning with ...%s...\nThe first occurrence of ...%s", search, searchPtr );
 
 		searchPtr = strstr( searchPtr + 1, search );
 
 		if ( searchPtr ) {
-			printf( "The remainder of the line beginning with %s\nThe second occurance of %s", search, searchPtr );
+			printf( "The remainder of the line beginning with ...%s...\nThe second occurrence of ...%s", search, searchPtr );
 		} else {
 			printf( "The search string appeared only once.\n");
 		}
