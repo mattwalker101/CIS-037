@@ -4,8 +4,6 @@
 
 #include <stdio.h>
 
-
-
 int main()
 {
 
@@ -50,12 +48,12 @@ int main()
 			} else if ( economyClass > 10 && firstClass <= 5 ) {  // if only first class available
 				printf( "Economy class is full.\nWould you like a seat in first class? (Press 1 for Yes)\n" );
 				scanf_s ( "%d", &decision );
-				if ( decision == 1 ) {
+				if ( decision == 1 ) { // if user is okay with first class, assign seat
 					printf( "Your assigned seat number is %d in FIRST CLASS\n\n\n", firstClass );
 					flight[ firstClass++ ] = 1;
 					count++;
 				}
-				else {
+				else {  // if user is not okay with first class
 					printf( "The next flight will depart in 3 hours.\n\n\n" );
 				}
 			}
@@ -66,6 +64,7 @@ int main()
 			printf( "\nPlease select a valid option.\n" );
 		}
 	}
+	// once all 10 tickets are sold, end the program 
 
 	printf( "\n\nAll seats for this flight have been booked!\n\n");
 
