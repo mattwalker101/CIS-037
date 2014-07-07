@@ -27,33 +27,31 @@ int main()
 
 		if ( response == 1 ) { // first class selected
 			if ( !flight[ firstClass ] && firstClass <= 5 ) { // is first class available?
-				printf( "Your assigned seat number is %d\n", firstClass );
+				printf( "Your assigned seat number is %d in FIRST CLASS\n\n\n", firstClass );
 				flight[ firstClass++ ] = 1;
 				count++;
 			} else if ( firstClass > 5  && economyClass < 10 ) { // if economy available, then ask user
 				printf( "\nFirst class is sold out.\nWould you like a seat in economy class? (Press 1 for Yes)\n" );
-				scanf_s( "%d", decision );
-
-				printf( "%d", decision );
+				scanf_s( "%d", &decision );
 
 				if ( decision == 1 ) { // if user wants economy, assign a seat
-					printf( "Your assigned seat number is: %d\n", economyClass );
+					printf( "Your assigned seat number is: %d in ECONOMY CLASS\n\n\n", economyClass );
 					flight[ economyClass++ ] = 1;
 					count++;
 				} else {
-					printf( "The next flight will depart in 3 hours.\n" );
+					printf( "The next flight will depart in 3 hours.\n\n\n" );
 				}
 			}
 		} else if ( response == 2 ) {  // economy class selected
 			if ( !flight[ economyClass ] && economyClass <= 10 ) {  //is economy class available
-				printf( "Your assigned seat number is %d\n", economyClass );
+				printf( "Your assigned seat number is %d in ECONOMY CLASS\n\n\n", economyClass );
 				flight[ economyClass++ ] = 1;
 				count++;
 			} else if ( economyClass > 10 && firstClass <= 5 ) {  // if only first class available
-				printf( "Economy class is full.\nWould you like a seat in first class? (Y or y for yes)\n" );
-				scanf_s ( "%s", decision );
-				if ( decision[ 0 ] == 'Y' || decision[ 0 ] == 'y' ) {
-					printf( "Your assigned seat number is %d\n", firstClass );
+				printf( "Economy class is full.\nWould you like a seat in first class? (Press 1 for Yes)\n" );
+				scanf_s ( "%d", &decision );
+				if ( decision == 1 ) {
+					printf( "Your assigned seat number is %d in FIRST CLASS\n\n\n", firstClass );
 					flight[ firstClass++ ] = 1;
 					count++;
 				}
@@ -62,14 +60,14 @@ int main()
 				}
 			}
 			else {
-				printf( "The next flight will depart in 3 hours.\n" );
+				printf( "The next flight will depart in 3 hours.\n\n\n" );
 				}
 		} else {
 			printf( "\nPlease select a valid option.\n" );
 		}
 	}
 
-	printf( "All seats for this flight have been booked.\n");
+	printf( "\n\nAll seats for this flight have been booked!\n\n");
 
 	return 0;
 }
