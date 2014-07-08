@@ -1,0 +1,39 @@
+/* Test 8.10
+ * Matthew Walker, Windows VS2012
+ * Compare two strings input by the user with strncmp 
+ * and display whether the first string is <, = or > the second string
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 80
+
+
+/* THIS VERSION DOESN'T WORK, BUT I WANT TO FIGURE OUT HOW TO DO IT WITH POINTERS!!! 
+ */ THIS IS A REFERENCE CHUNK
+int main()
+{
+	char *text1;
+	char *text2;
+	int value = 0;
+
+
+	printf( "\nInput the first line of text to be compared.\n" );
+	scanf_s( "%s", &text1 );
+
+	printf( "\nInput the second line of text to be compared.\n" );
+	scanf_s( "%s", &text2 );
+
+	value = strncmp( text1, text2, SIZE );
+	if ( value == 0 ) {
+		printf( "\nAll strings are created equal! At least, these two are!!\n" );
+	} else if ( value > 0 ) {
+		printf( "\nThe first line is GREATER than the second line!\n" );
+	} else if ( value < 0 ) {
+		printf( "\nThe first line is LESS than the second line!\n" );
+	} else {
+		printf("\nWell, that didn't work... something is wrong with your strings! Try again, maybe?\n" );
+	}
+	
+}
