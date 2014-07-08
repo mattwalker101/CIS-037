@@ -1,0 +1,40 @@
+/* Test 8.20
+ * Matthew Walker, Windows VS2012
+ * Count the number of words in a string
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 80
+
+int main( void )
+{
+	char text[ 4 ][ SIZE ];
+	char *tokenPtr;
+	char *nextToken;
+	int loopCount;
+	int tokenCount = 0;
+
+	printf("\nWelcome to the amazing word counting program!!\n" );
+	printf( "Input four lines of text.\n" );
+	
+	for ( loopCount = 0; loopCount <=3; loopCount++ ) {
+		fgets( &text[ loopCount ][ 0 ], SIZE, stdin );
+		
+		tokenPtr = strtok_s( &text[ loopCount ][ 0 ], " \n", &nextToken  );
+
+		while ( tokenPtr ) {
+			++tokenCount;
+		//	printf("%d: %s\n", tokenCount, tokenPtr );   // error checking step
+			tokenPtr = strtok_s( NULL, " \n", &nextToken );
+		}
+	}
+
+	
+	printf("\nYour text has %d words!!\n\n", tokenCount );
+
+	return 0;
+
+	
+}
