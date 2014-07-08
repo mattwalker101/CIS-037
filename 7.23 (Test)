@@ -52,8 +52,8 @@ void mazeGenerator ( char maze [ ][ SIZE ] )
 
 	//pick a start and end randomly
 
-	xStart = rand() % 10;
-	xEnd = rand() % 10;
+	xStart = 1+ rand() % 10;
+	xEnd = 1+ rand() % 10;
 
 	maze [ xStart ][ 0 ] = '.';
 	maze [ xEnd ][ 11 ] = '.';
