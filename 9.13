@@ -1,0 +1,25 @@
+/* Homework 9.13
+ * Matthew Walker, Windows VS2012
+ * Input the value 437 using each of the scanf integer conversion specifiers.
+ * Print each input value using all the integer conversion specifiers
+ */
+
+#include <stdio.h>
+
+int main()
+{
+
+	int array[ 5 ];
+	int i;
+	char *tableHeader[] = { "Using conversion specifier %d:  ", "Using conversion specifier %i:  ", 
+		"Using conversion specifier %o:  ", "Using conversion specifier %u:  ", "Using conversion specifier %x:  " };
+
+	puts( "Enter 437 six times..." );
+	scanf_s( "%d%i%o%u%x", &array[ 0 ], &array[ 1 ], &array[ 2 ], &array[ 3 ], &array[ 4 ] );
+
+	for ( i = 0; i <= 4; i++ ) {
+		printf( "\n%s%d %i %o %u %x\n\n", tableHeader[ i ], array[ i ], array[ i ], array[ i ], array[ i ], array[ i ] );
+	}
+
+	return 0;
+}
