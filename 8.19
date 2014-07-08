@@ -1,3 +1,43 @@
-// Homework 8.19
-// Matthew Walker, Windows VS2012
-// Counting the letters of the alphabet in a string
+/* Homework 8.19
+ * Matthew Walker, Due ?, Windows VS2012
+ * Counting the letters of the alphabet in a string
+ */
+ 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+
+#define SIZE 80
+
+
+
+int main()
+{
+    char text[ ][ SIZE ] = { 0 };
+    int numLines;
+    char search;
+    char *searchPtr;
+    
+    // Input lines of text until EOF, store in array text
+    printf( "Please write several lines of text. EOF to end input." );
+    
+    int charText = 0;  // counter for characters
+    int lineText = 0;  // counter for lines
+    text[ charText ][ lineText ] = getchar();
+    text[ charText ][ lineText ] = toupper( text[ charText ][ lineText ] );
+    
+    while ( ( text[ charText ][ lineText ] != EOF ) ) {
+        if ( text[ charText ][ lineText ] == '\n' ) {
+            charText = 0;
+            text[ charText ][ ++lineText ] = getchar();
+        } else {
+            text[ ++charText ][ lineText ] = getchar();
+            text[ charText ][ lineText ] = toupper( text[ charText ][ lineText ] );
+        }
+        
+                
+         
+    }
+    
+}
