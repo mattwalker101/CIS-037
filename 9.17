@@ -1,0 +1,26 @@
+/* Test 9.17
+ * Matthew Walker, Windows VS2012
+ * Using %g with various precisions
+ */
+
+#include <stdio.h>
+
+int main()
+{
+	int precision;
+	double value = 9876.12345;
+
+	printf( "I will print the value of 9876.12345 at different precisions!\n\n", value );
+
+	printf( "Precision = 1 : Value = %.1g\n", value );
+	printf( "Precision = 2 : Value = %.2g\n", value );
+	printf( "Precision = 3 : Value = %.3g\n", value );
+	printf( "Precision = 4 : Value = %.4g\n", value );
+	printf( "Precision = 5 : Value = %.5g\n", value );
+	printf( "Precision = 6 : Value = %.6g\n", value );
+	printf( "Precision = 7 : Value = %.7g\n", value );
+	printf( "Precision = 8 : Value = %.8g\n", value );
+	printf( "Precision = 9 : Value = %.9g\n", value );
+
+
+}
