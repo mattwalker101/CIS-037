@@ -1,0 +1,21 @@
+/* Test 9.11
+ * Matthew Walker, Windows VS2012
+ * Test escape sequences by showing how the cursor is moved
+ */
+
+#include <stdio.h>
+
+int main( void )
+{
+	printf( "This program tests escape sequences.\n" );
+
+	printf( "\nThe sequence \\\' makes the cursor go from here...\' to here.\n" );
+	printf( "\nThe sequence \\\" makes the cursor go from here...\" to here.\n" );
+	printf( "\nThe sequence \\\? makes the cursor go from here...\? to here.\n" );
+	printf( "\nThe sequence \\\\ makes the cursor go from here...\\ to here.\n" );
+	printf( "\nThe sequence \\a makes the cursor go from here...\a to here.\n" );
+	printf( "\nThe sequence \\b makes the cursor go from here...\b to here.\n" );
+	printf( "\nThe sequence \\n makes the cursor go from here...\n to here.\n" );
+	printf( "\nThe sequence \\r makes the cursor go from here...\r to here.\n" );
+	printf( "\nThe sequence \\t makes the cursor go from here...\t to here.\n" );
+}
