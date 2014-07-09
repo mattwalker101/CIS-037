@@ -7,25 +7,24 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SIZE 80
+#define SIZE 200
 
 int main()
 {
 
 char text [ SIZE ] = { 0 };
-char search [ 20 ] = { 0 };
+char search [ SIZE ] = { 0 };
 char *searchPtr;
-int i;
+
 
 // Input a line of text and a search string from the keyboard
 	printf( "Enter a line of text to be searched...\n" );
-    fgets( text, SIZE, stdin );
-
+	gets_s(text, SIZE);
 	printf( text );
 	puts("");
 	
 	printf( "\nEnter a search string...\n" );
-	fgets( search, SIZE, stdin );
+	gets_s(search, SIZE);
 	printf( search );
 	puts("");
 
@@ -35,17 +34,10 @@ int i;
 	
 // if search string found, print remainder of the line of text beginning with the search string
 
-	if ( searchPtr ) {
-		printf( "The remainder of the line beginning with ...%s...\nThe first occurrence of ...%s", search, searchPtr );
+	printf( "\n%s\n%s\"%s\":\n%s\n", "The remainder of the line beginning with", "The first occurrence of ", search, searchPtr );
 
-		searchPtr = strstr( searchPtr + 1, search );
+	searchPtr = strstr( searchPtr + 1, search );
 
-		if ( searchPtr ) {
-			printf( "The remainder of the line beginning with ...%s...\nThe second occurrence of ...%s", search, searchPtr );
-		} else {
-			printf( "The search string appeared only once.\n");
-		}
-	} else {
-		printf( "%s ... Didn't find it.\n", search );
-	}
-}
+	printf( "\n%s\n%s\"%s\":\n%s\n", "The remainder of the line beginning with", "The second occurrence of ", search, searchPtr );
+
+} 
