@@ -19,13 +19,16 @@ int main()
     char search;
     char *searchPtr;
 	char charCount[ 2 ][ 26 ];
-	
+	int charText;
+	int lineText;
+	int i;
+
     
     // Input lines of text until EOF, store in array text
     printf( "Please write several lines of text. EOF to end input." );
     
-    int charText = 0;  // counter for characters
-    int lineText = 0;  // counter for lines
+    charText = 0;  // counter for characters
+    lineText = 0;  // counter for lines
     text[ charText ][ lineText ] = getchar();
     text[ charText ][ lineText ] = toupper( text[ charText ][ lineText ] );
     
@@ -52,7 +55,7 @@ int main()
         } else {
 			for ( int i = 0; i <= 26; i++ ) {
 				searchPtr = strchr( text, charCount[ 0 ][ i ] );	// strchr returns pointer to the char
-				charCount[ 1 ][ searchPtr ]++;		// increment the count in charCount [ searchPtr ]
+				(charCount[ 1 ][ searchPtr ])++;		// increment the count in charCount [ searchPtr ]
 			}
 		charText++;
 		}
