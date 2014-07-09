@@ -15,18 +15,19 @@ int main()
 char text [ SIZE ] = { 0 };
 char search [ 20 ] = { 0 };
 char *searchPtr;
+int i;
 
 // Input a line of text and a search string from the keyboard
 	printf( "Enter a line of text to be searched...\n" );
-        int i = 0;
-        text[ i ] = getchar();
-        while ( ( text[ i ] != '\n' ) ) {
-            text[ ++i ] = getchar();
-        }
+    fgets( text, SIZE, stdin );
+
+	printf( text );
+	puts("");
 	
 	printf( "\nEnter a search string...\n" );
-	scanf( "%15s", search );
-	puts( "" );
+	fgets( search, SIZE, stdin );
+	printf( search );
+	puts("");
 
 // using strstr function, locate first occurrence of search string and assign location to char *searchPtr
 
