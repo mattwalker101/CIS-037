@@ -1,0 +1,49 @@
+/* Homework 8.19
+ * Matthew Walker, Due ?, Windows VS2012
+ * Counting the letters of the alphabet in a string
+ */
+ 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main(void)
+{
+    char Text[ 4 ][ 80 ] ;
+    char *searchPtr;
+    char characters[ 25 ] = { 0 };
+    int count = 0;
+    int x;
+    int y;
+    
+    printf( "Enter four lines of text:\n" );
+    for (x = 0; x <= 3; x++ ) {
+        gets( &Text[ x ][ 0 ] );
+    }
+    // convert to lowercase
+    for ( x = 0; x <= 3; x++ ){
+        for ( y = 0; Text[ x ][ y ] != '\0'; y++ ) {
+            Text[ x ][ y ] = tolower( Text[ x ][ y ] );
+        }
+    }
+    for ( x = 0; x <= 25; x++ ) {
+        for ( y = 0, count = 0; y <= 3; y++ ) {
+            searchPtr = &Text[ y ][ 0 ];
+            while ( searchPtr = strchr( searchPtr, 'a' + x ) ) {
+                ++count;
+                searchPtr++;
+            }
+        }
+        characters[ x ] = count;
+    }
+    
+    printf( "\nThe count of each character for your text is:\n" );
+    
+    for ( x = 0; x <= 25; x++ ) {
+        printf( "%c:%d\n", 'a' + x, characters[ x ] );  
+        printf ( x % 3 ? "\t" : "\n");
+    }
+    return;
+    
+}
+
