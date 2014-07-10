@@ -1,0 +1,41 @@
+/* Homework 10.11
+ * Matthew Walker, Due 7/23/14, Windows VS2012
+ * Left shifting integers
+ * Write function power2 that takes 2 int arguments (number and pow) 
+ * can calculates number * 2^power using shift operator
+ * print values as integers and as bits
+ */
+
+#include <stdio.h>
+
+void displayBits( unsigned int value );
+
+int main( void )
+{
+	unsigned int x;		// holds user input
+
+	printf( "%s", "Enter a nonnegative int:  " );
+	scanf_s( "%u", &x );
+
+	displayBits( x );
+}
+
+void displayBits( unsigned int value )
+{
+	unsigned int c;  // counter
+
+	unsigned int displayMask = 1 << 31;
+
+	printf( "%10u = ", value );
+
+	//loop through bits
+	for (c = 1; c <=32; ++c ){
+		putchar( value & displayMask ? '1' : '0' );
+		value <<= 1; 
+
+		if ( c % 8 == 0 ) {
+			putchar( ' ' );
+		}
+	}
+	putchar( '\n' );
+}
