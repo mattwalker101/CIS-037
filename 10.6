@@ -1,0 +1,78 @@
+/* Homework 10.6
+ * Matthew Walker, Due 7/23/14, Windows VS2012
+ * Write expressions to access structure members
+ *
+ *
+ * This program WILL NOT RUN - There is no data inside the structure!!
+ *
+ */
+
+#include <stdio.h>
+
+struct customer {
+	char lastName[ 15 ];
+	char firstName[ 15 ];
+	unsigned int customerNumber;
+
+	struct {
+		char phoneNumber[ 11 ];
+		char address[ 50 ];
+		char city[ 15 ];
+		char state[ 3 ];
+		char zipCode[ 6 ];
+	} personal;
+
+} customerRecord, *customerPtr;
+
+int main();
+{
+	customerPtr = &customerRecord;
+
+	// a)
+	printf( "%s\n", customerRecord.lastName );
+
+	// b)
+	printf( "%s\n", customerPtr->lastName );
+	
+	// c)
+	printf( "%s\n", customerRecord.firstName );
+
+	// d)
+	printf( "%s\n", customerPtr->firstName );
+
+	// e)
+	printf( "%i\n", customerRecord.customerNumber );
+
+	// f)
+	printf( "%i\n", customerPtr->customerNumber );
+
+	// g)
+	printf( "%s\n", customerRecord.personal.phoneNumber );
+
+	// h)
+	printf( "%s\n", customerPtr->personal.phoneNumber );
+
+	// i)
+	printf( "%s\n", customerRecord.personal.address );
+
+	// j)
+	printf( "%s\n", customerPtr->personal.address );
+
+	// k)
+	printf( "%s\n", customerRecord.personal.city );
+
+	// l)
+	printf( "%s\n", customerPtr->personal.city );
+
+	// m)
+	printf( "%s\n", customerRecord.personal.state );
+
+	// n)
+	printf( "%s\n", customerPtr->personal.state );
+
+	// o)
+	printf( "%s\n", customerRecord.personal.zipCode );
+
+	// p)
+	printf( "%s\n", customerPtr->personal.zipCode );
+
