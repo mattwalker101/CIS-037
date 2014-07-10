@@ -7,6 +7,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#define SIZE 80
+
 int main(void)
 {
     char Text[ 4 ][ 80 ] ;
@@ -41,9 +43,9 @@ int main(void)
     
     for ( x = 0; x <= 25; x++ ) {
         printf( "%c:%d\n", 'a' + x, characters[ x ] );  
-        printf ( x % 3 ? "\t" : "\n");
+  
     }
-    return;
+    return 0;
     
 }
 
