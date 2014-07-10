@@ -17,45 +17,47 @@ union integer {
 	long b;
 };
 
-int main( void )
+int main()
 {
-	union integer charInput;
-	union integer shortInput;
-	union integer intInput;
-	union integer longInput;
-	char *tableHeader[] = { "char", "short", "int", "long" };
+	union integer input;
 
 	printf( "\nInput values of the following type:\n" );
 	printf("Type char:  " );
-	gets_s( &charInput.c, SIZE );
+	input.c =getchar();
+
+	printf( "\n\n%c printed as char is %c\n", input.c, input.c );
+	printf( "%c printed as short is %hd\n", input.c, input.s );
+	printf( "%c printed as int is %d\n", input.c, input.i );
+	printf( "%c printed as long is %ld\n\n", input.c, input.b );
+
+
 	printf(" \nType short:  " );
-	gets_s( &shortInput.s, SIZE );
+	scanf_s( "%hd", &input.s );
+
+	printf( "\n\n%hd printed as char is %c\n", input.s, input.c );
+	printf( "%hd printed as short is %hd\n", input.s, input.s );
+	printf( "%hd printed as int is %d\n", input.s, input.i );
+	printf( "%hd printed as long is %ld\n\n", input.s, input.b );
+
+
 	printf( "\nType int:  " );
-	gets_s( &intInput.i, SIZE );
+	scanf_s( "%d", &input.i );
+
+	printf( "\n\n%d printed as char is %c\n", input.i, input.c );
+	printf( "%d printed as short is %hd\n", input.i, input.s );
+	printf( "%d printed as int is %d\n", input.i, input.i );
+	printf( "%d printed as long is %ld\n\n", input.i, input.b );
+
+
+
 	printf( "\nType long:  " );
-	gets_s( &longInput.b, SIZE );
+	scanf_s( "%ld", &input.b );
 
-	// display each union integer as all the different types
+	printf( "\n\n%ld printed as char is %c\n", input.s, input.c );
+	printf( "%ld printed as short is %hd\n", input.s, input.s );
+	printf( "%ld printed as int is %d\n", input.s, input.i );
+	printf( "%ld printed as long is %ld\n\n", input.s, input.b );
 
-	printf( "\n\nInput was type char.\nAs char, it prints as %c\n", charInput.c );
-	printf( "As short, it prints as %i\n", charInput.s );
-	printf( "As int, it prints as %i\n", charInput.i );
-	printf( "As long, it prints as %l\n\n", charInput.b );
-
-	printf( "Input was type short.\nAs char, it prints as %c\n", shortInput.c );
-	printf( "As short, it prints as %i\n", shortInput.s );
-	printf( "As int, it prints as %i\n", shortInput.i );
-	printf( "As long, it prints as %l\n\n", shortInput.b );
-
-	printf( "Input was type int.\nAs char, it prints as %c\n", intInput.c );
-	printf( "As short, it prints as %i\n", intInput.s );
-	printf( "As int, it prints as %i\n", intInput.i );
-	printf( "As long, it prints as %l\n\n", intInput.b );
-
-	printf( "Input was type long.\nAs char, it prints as %c\n", longInput.c );
-	printf( "As short, it prints as %i\n", longInput.s );
-	printf( "As int, it prints as %i\n", longInput.i );
-	printf( "As long, it prints as %l\n\n", longInput.b );
 
 }
 
