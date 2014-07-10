@@ -9,18 +9,18 @@
 
 #define SIZE 80
 
-int main(void)
+int main()
 {
     char Text[ 4 ][ 80 ] ;
     char *searchPtr;
-    char characters[ 25 ] = { 0 };
+    char characters[ 26 ] = { 0 };
     int count = 0;
     int x;
     int y;
     
     printf( "Enter four lines of text:\n" );
     for (x = 0; x <= 3; x++ ) {
-        gets( &Text[ x ][ 0 ] );
+        gets_s( &Text[ x ][ 0 ], SIZE );
     }
     // convert to lowercase
     for ( x = 0; x <= 3; x++ ){
@@ -42,10 +42,10 @@ int main(void)
     printf( "\nThe count of each character for your text is:\n" );
     
     for ( x = 0; x <= 25; x++ ) {
-        printf( "%c:%d\n", 'a' + x, characters[ x ] );  
-  
+        printf( "%c:%d  ", 'a' + x, characters[ x ] );  
+	      	printf ("%c", ( x % 3 == 0 ) ? '\n' : ' '); 
     }
-    return 0;
+
     
 }
 
