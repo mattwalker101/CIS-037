@@ -14,7 +14,7 @@ int main()
 	char *tableHeader[] = { "Using conversion specifier %d:  ", "Using conversion specifier %i:  ", 
 		"Using conversion specifier %o:  ", "Using conversion specifier %u:  ", "Using conversion specifier %x:  " };
 
-	puts( "Enter 437 six times..." );
+	puts( "Enter 437 five times..." );
 	scanf_s( "%d%i%o%u%x", &array[ 0 ], &array[ 1 ], &array[ 2 ], &array[ 3 ], &array[ 4 ] );
 
 	for ( i = 0; i <= 4; i++ ) {
