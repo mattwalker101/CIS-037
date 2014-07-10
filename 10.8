@@ -1,0 +1,67 @@
+/* Homework 10.8
+ * Matthew Walker, Due 7/24/14, Windows VS2012
+ * Using Unions
+ * Create union integer with members char c, short s, int i and long b.
+ * Input values of type char, short, int and long and store in union integer variables
+ * Print each untion variable as char, short, int and long.
+ */
+
+#include <stdio.h>
+
+#define SIZE 80
+
+union integer {
+	char c;
+	short s;
+	int i;
+	long b;
+};
+
+int main( void )
+{
+	union integer charInput;
+	union integer shortInput;
+	union integer intInput;
+	union integer longInput;
+	char *tableHeader[] = { "char", "short", "int", "long" };
+
+	printf( "\nInput values of the following type:\n" );
+	printf("Type char:  " );
+	gets_s( &charInput.c, SIZE );
+	printf(" \nType short:  " );
+	gets_s( &shortInput.s, SIZE );
+	printf( "\nType int:  " );
+	gets_s( &intInput.i, SIZE );
+	printf( "\nType long:  " );
+	gets_s( &longInput.b, SIZE );
+
+	// display each union integer as all the different types
+
+	printf( "\n\nInput was type char.\nAs char, it prints as %c\n", charInput.c );
+	printf( "As short, it prints as %i\n", charInput.s );
+	printf( "As int, it prints as %i\n", charInput.i );
+	printf( "As long, it prints as %l\n\n", charInput.b );
+
+	printf( "Input was type short.\nAs char, it prints as %c\n", shortInput.c );
+	printf( "As short, it prints as %i\n", shortInput.s );
+	printf( "As int, it prints as %i\n", shortInput.i );
+	printf( "As long, it prints as %l\n\n", shortInput.b );
+
+	printf( "Input was type int.\nAs char, it prints as %c\n", intInput.c );
+	printf( "As short, it prints as %i\n", intInput.s );
+	printf( "As int, it prints as %i\n", intInput.i );
+	printf( "As long, it prints as %l\n\n", intInput.b );
+
+	printf( "Input was type long.\nAs char, it prints as %c\n", longInput.c );
+	printf( "As short, it prints as %i\n", longInput.s );
+	printf( "As int, it prints as %i\n", longInput.i );
+	printf( "As long, it prints as %l\n\n", longInput.b );
+
+}
+
+
+
+
+
+
+
