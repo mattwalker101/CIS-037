@@ -42,14 +42,14 @@ int main( void )
 	displayBits( d );
 
 	result = packCharacters( a, b );
-	printf( "%c and %c packed into an unsigned integer are:\n", a, b );
-	displayBits( result );
+//	printf( "%c and %c packed into an unsigned integer are:\n", a, b );
+//	displayBits( result );
 
 	result2 = packCharacters( c, d );
-	printf( "%c and %c packed into an unsigned integer are:\n", c, d );
-	displayBits( result2 );
+//	printf( "%c and %c packed into an unsigned integer are:\n", c, d );
+//	displayBits( result2 );
 
-	printf( "The combined unsigned integer is:\n" );
+	printf( "\nThe combined unsigned integer is:\n" );
 	result <<= 16;
 	displayBits( result | result2 );
 
