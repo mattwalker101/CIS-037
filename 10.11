@@ -12,12 +12,24 @@ void displayBits( unsigned int value );
 
 int main( void )
 {
-	unsigned int x;		// holds user input
+	unsigned int number;		// holds user input
+	unsigned int pow;	// for the power
+	unsigned int counter;
 
-	printf( "%s", "Enter a nonnegative int:  " );
-	scanf_s( "%u", &x );
+	printf( "I will calculate number * 2 ^ power using bit shifting operators.\n");
+	printf( "%s", "Enter a nonnegative integer for number:  " );
+	scanf_s( "%u", &number );
 
-	displayBits( x );
+	printf( "\nHere is your number in bit form ");
+	displayBits( number );
+
+	printf( "\nEnter a nonnegative integer for power: " );
+	scanf_s( "%u", &pow );
+
+	for ( counter = 1; counter <= pow; counter++ ) {	// left shift once for each count of pow
+		displayBits( number <<= 1 );
+	}
+
 }
 
 void displayBits( unsigned int value )
