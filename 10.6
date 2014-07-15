@@ -9,18 +9,18 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 
 struct customer {
 	char lastName[ 15 ];
 	char firstName[ 15 ];
 	unsigned int customerNumber;
-
 	struct {
-		char phoneNumber[ 11 ];
-		char address[ 50 ];
-		char city[ 15 ];
-		char state[ 3 ];
-		char zipCode[ 6 ];
+		char phoneNumber[ 11 ] = "4157545739";
+		char address[ 50 ] = "123 Awesome Street";
+		char city[ 15 ] = "Sunnyvale";
+		char state[ 3 ] = "CA";
+		char zipCode[ 6 ] = "94089";
 	} personal;
 
 } customerRecord, *customerPtr;
@@ -29,16 +29,9 @@ int main()
 {
 
 
-/*	customerPtr = &customerRecord;
-	customerPtr->lastName = "WALKER";
-	customerRecord.firstName = "MATTHEW";
-	customerRecord.customerNumber = "723";
-	customerRecord.personal.phoneNumber = "4157545739";
-	customerRecord.personal.address = "123 AwesomeStreet";
-	customerRecord.personal.city = "Sunnyvale";
-	customerRecord.personal.state = "CA";
-	customerRecord.personal.zipCode = "94089";
-	*/
+	customerPtr = &customerRecord;
+
+	customer customerRecord = {.lastname = "Walker", .firstname = "Matthew", .customerNumber = 723 };
 
 	// a)
 	printf( "%s\n", customerRecord.lastName );
