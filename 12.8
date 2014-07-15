@@ -1,0 +1,108 @@
+/* Homework 12.8
+ * Matthew Walker, Windows VS2012
+ * Create a linked list of 25 random integers between 0 and 100
+ * calculate floating point average and sum
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+struct listNode {
+	char data;
+	struct listNode *nextPtr; };
+
+typedef struct listNode ListNode;
+typedef ListNode *ListNodePtr;
+
+void insert( ListNodePtr *sPtr, char value );
+void printList( ListNodePtr currentPtr );
+int isEmpty( ListNodePtr sPtr );
+void printList( ListNodePtr currentPtr );
+
+int main()
+{
+	int value;
+	int counter;
+	int sum = 0;
+	float average = 0.0;
+	ListNodePtr startPtr = NULL;
+	ListNodePtr current;
+
+	srand( time ( NULL ) );
+
+	// generate and insert random values into list startPtr
+	for ( counter = 1; counter <= 25; counter++ ) {
+		value = rand() % 100;
+		insert( &startPtr, value );
+	}
+
+
+	// get sum
+	current = startPtr;
+
+	while ( current != NULL ) {
+		sum += current->data;
+		printf( "%d\t", current->data );
+		current = current->nextPtr;
+	}
+	// get floating point average
+
+	average = ( sum / 25.0 );
+	printf( "Sum of list is: %d\nAverage of list is: %.2f\n", sum, average );
+
+}
+
+void insert( ListNodePtr *sPtr, char value )
+{
+	ListNodePtr newPtr;
+	ListNodePtr previousPtr;
+	ListNodePtr currentPtr;
+
+	newPtr = (struct listNode *)malloc( sizeof ( struct listNode ) );
+
+	if ( newPtr != NULL ) {
+		newPtr->data = value;
+		newPtr->nextPtr = NULL;
+
+		previousPtr = NULL;
+		currentPtr = *sPtr;
+
+		while ( currentPtr != NULL && value > currentPtr->data ) {
+			previousPtr = currentPtr;
+			currentPtr = currentPtr->nextPtr;
+		}
+
+		if ( previousPtr == NULL ) {
+			newPtr->nextPtr = *sPtr;
+			*sPtr = newPtr;
+		} else {
+			previousPtr->nextPtr = newPtr;
+			newPtr->nextPtr = currentPtr;
+		}
+	} else {
+		printf( "%c not inserted. No memory available.\n" );
+	}
+}
+
+int isEmpty( ListNodePtr sPtr )
+{
+	return sPtr == NULL;
+}
+
+void printList( ListNodePtr currentPtr )
+{
+	if ( isEmpty( currentPtr ) ) {
+		puts( "List is empty.\n" );
+	} else {
+		puts( "The list is: " );
+		while ( currentPtr != NULL ) {
+			printf( "%c --> ", currentPtr->data );
+			currentPtr = currentPtr->nextPtr;
+		}
+		puts( "NULL\n" );
+	}
+}
+ 
+
+
