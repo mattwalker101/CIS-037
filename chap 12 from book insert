@@ -36,7 +36,7 @@ int main( void )
 		switch ( choice ) { 
 			case 1:
 				printf( "%s", "Enter a character: " );
-				scanf_s( "\n%c", &item );
+				item = getchar();
 				insert( &startPtr, item );
 				printList( startPtr );
 				break;
@@ -44,7 +44,7 @@ int main( void )
 					// if list is not empty
 				if ( !isEmpty( startPtr ) ) { 
 					printf( "%s", "Enter character to be deleted: " );
-					scanf_s( "\n%c", &item );
+					scanf_s( "%c", &item );
 
 					if ( delete( &startPtr, item ) ) { // remove item
 						// if character is found, remove it
@@ -84,39 +84,41 @@ puts( "Enter your choice:\n"
 // insert a new value into the list in sorted order
 void insert( ListNodePtr *sPtr, char value )
 { 
-ListNodePtr newPtr; // pointer to new node
-ListNodePtr previousPtr; // pointer to previous node in list
-ListNodePtr currentPtr; // pointer to current node in list
+	ListNodePtr newPtr; // pointer to new node
+	ListNodePtr previousPtr; // pointer to previous node in list
+	ListNodePtr currentPtr; // pointer to current node in list
 
-newPtr = malloc( sizeof( ListNode ) ); // create node
+	newPtr = (struct listNode *)malloc( sizeof( ListNode ) ); // create node
 
-if ( newPtr != NULL ) { // is space available
-newPtr->data = value; // place value in node
-newPtr->nextPtr = NULL; // node does not link to another node
+	if ( newPtr != NULL ) { // is space available
+		newPtr->data = value; // place value in node
+		newPtr->nextPtr = NULL; // node does not link to another node
 
-previousPtr = NULL;
-currentPtr = *sPtr;
+		previousPtr = NULL;
+		currentPtr = *sPtr;
 
-	// loop to find the correct location in the list 
-	while ( currentPtr != NULL && value > currentPtr->data ) {
-		previousPtr = currentPtr; // walk to ... 
-		currentPtr = currentPtr->nextPtr; // ... next node 
-	} // end while 
+		// loop to find the correct location in the list 
+		while ( currentPtr != NULL && value > currentPtr->data ) {
+			previousPtr = currentPtr; // walk to ... 
+			currentPtr = currentPtr->nextPtr; // ... next node 
+		} // end while 
 
-	// insert new node at beginning of list
-	if ( previousPtr == NULL ) { 
-		newPtr->nextPtr = *sPtr;
-		*sPtr = newPtr;
+		// insert new node at beginning of list
+		if ( previousPtr == NULL ) { 
+			newPtr->nextPtr = *sPtr;
+			*sPtr = newPtr;
+		} // end if
+		else { // insert new node between previousPtr and currentPtr
+			previousPtr->nextPtr = newPtr;
+			newPtr->nextPtr = currentPtr;
+		} // end else
 	} // end if
-	else { // insert new node between previousPtr and currentPtr
-		previousPtr->nextPtr = newPtr;
-		newPtr->nextPtr = currentPtr;
+	else {
+		printf( "%c not inserted. No memory available.\n", value );
 	} // end else
-} // end if
-else {
-printf( "%c not inserted. No memory available.\n", value );
-} // end else
 } // end function insert
+
+
 
 // delete a list element
 char delete( ListNodePtr *sPtr, char value )
