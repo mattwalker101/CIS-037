@@ -1,0 +1,109 @@
+/* Homework 12.6
+ * Matthew Walker, Windows VS2012
+ * Concatenate two linked lists of characters
+ */
+#include <stdio.h>
+#include <stdlib.h>
+
+struct listNode {
+	char data;
+	struct listNode *nextPtr; };
+
+typedef struct listNode ListNode; // synonym for struct listNode
+typedef ListNode *ListNodePtr; // synonym for ListNode*
+
+void insert( ListNodePtr *sPtr, char value );
+void printList( ListNodePtr currentPtr );
+int isEmpty( ListNodePtr sPtr );
+void printList( ListNodePtr currentPtr );
+void concatenate( ListNodePtr aPtr, ListNodePtr bPtr );
+
+int main()
+{
+	int i;
+	ListNodePtr startPtr = NULL;
+	ListNodePtr secondPtr = NULL;
+
+	// create 2 lists of characters
+	printf( "\nHere is list one:\n" );
+	for ( i = 0; i <= 5; i++ ) {
+		insert( &startPtr, 'a' + i );
+	}
+	printList( startPtr );
+
+	printf( "\nHere is list two:\n" );
+	for ( i = 0; i <= 5; i++ ) {
+		insert( &secondPtr, 'm' + i );
+	}
+	printList( secondPtr );
+
+	// concatenate the two lists
+	concatenate ( startPtr, secondPtr );
+	printList ( startPtr );
+}
+
+void concatenate( ListNodePtr aPtr, ListNodePtr bPtr )
+{
+	ListNodePtr currentPtr;
+
+	currentPtr = aPtr;
+
+	while ( currentPtr != NULL ) {
+		currentPtr = currentPtr->nextPtr;
+	}
+	currentPtr->nextPtr = bPtr;
+
+}
+
+void insert( ListNodePtr *sPtr, char value )
+{
+	ListNodePtr newPtr;
+	ListNodePtr previousPtr;
+	ListNodePtr currentPtr;
+
+	newPtr = (struct listNode *)malloc( sizeof ( struct listNode ) );
+
+	if ( newPtr != NULL ) {
+		newPtr->data = value;
+		newPtr->nextPtr = NULL;
+
+		previousPtr = NULL;
+		currentPtr = *sPtr;
+
+		while ( currentPtr != NULL && value > currentPtr->data ) {
+			previousPtr = currentPtr;
+			currentPtr = currentPtr->nextPtr;
+		}
+
+		if ( previousPtr == NULL ) {
+			newPtr->nextPtr = *sPtr;
+			*sPtr = newPtr;
+		} else {
+			previousPtr->nextPtr = newPtr;
+			newPtr->nextPtr = currentPtr;
+		}
+	} else {
+		printf( "%c not inserted. No memory available.\n", value );
+	}
+}
+
+
+int isEmpty( ListNodePtr sPtr ) // return 1 if empty, 0 otherwise
+{
+		return sPtr == NULL;
+}
+
+void printList( ListNodePtr currentPtr )
+{
+	if ( isEmpty( currentPtr ) ) {
+		puts( "List is empty.\n" );
+	} else {
+		puts( "The list is: " );
+		while ( currentPtr != NULL ) {
+			printf( "%c --> ", currentPtr->data );
+			currentPtr = currentPtr->nextPtr;
+		}
+		puts( "NULL\n" );
+	}
+}
+
