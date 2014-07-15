@@ -16,7 +16,7 @@ void insert( ListNodePtr *sPtr, char value );
 void printList( ListNodePtr currentPtr );
 int isEmpty( ListNodePtr sPtr );
 void printList( ListNodePtr currentPtr );
-void concatenate( ListNodePtr aPtr, ListNodePtr bPtr );
+void concatenate( ListNodePtr **p, ListNodePtr **q );
 
 int main()
 {
@@ -38,21 +38,27 @@ int main()
 	printList( secondPtr );
 
 	// concatenate the two lists
-	concatenate ( startPtr, secondPtr );
+	concatenate ( &startPtr, &secondPtr );
 	printList ( startPtr );
 }
 
-void concatenate( ListNodePtr aPtr, ListNodePtr bPtr )
+void concatenate( struct listNode **p, struct listNode **q )
 {
-	ListNodePtr currentPtr;
+	struct listNode *temp;
 
-	currentPtr = aPtr;
-
-	while ( currentPtr != NULL ) {
-		currentPtr = currentPtr->nextPtr;
+	//if first linked list is empty
+	if ( *p == NULL ) {
+		*p = *q;
+	} else {
+		//if both lists are not empty
+		if ( *q != NULL ) {
+			temp = *p;
+			while ( temp->nextPtr != NULL ) {
+				temp = temp->nextPtr;
+			}
+			temp->nextPtr = *q;
+		}
 	}
-	currentPtr->nextPtr = bPtr;
-
 }
 
 void insert( ListNodePtr *sPtr, char value )
