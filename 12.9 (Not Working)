@@ -8,147 +8,58 @@
 #include <stdlib.h>
 #include <time.h>
 
-struct listNode {
+struct node {
 	char data;
-	struct listNode *nextPtr; };
+	struct node *link;
+};
+static struct node *first = NULL;
 
-typedef struct listNode ListNode;
-typedef ListNode *ListNodePtr;
 
-void insert( ListNodePtr *sPtr, char value );
-void printList( ListNodePtr currentPtr );
-int isEmpty( ListNodePtr sPtr );
-void printList( ListNodePtr currentPtr );
-char delete( ListNodePtr *sPtr, char value );
-
-int main()
+static void printList() 
 {
-	int value;
-	int counter;
-	char tempValue;
-
-	ListNodePtr startPtr = NULL;
-	ListNodePtr tempPtr = NULL;
-	ListNodePtr newPtr;
-
-	srand( time ( NULL ) );
-
-	newPtr = (struct listNode *)malloc( sizeof ( struct listNode ) );
-
-	printf( "\nHere are 10 random characters in an ordered list...\n" );
-
-	// generate and insert random values into list startPtr
-	// ASCII values for uppercase letters are 65-90
-	for ( counter = 1; counter <= 10; counter++ ) {
-		value = 65 + rand() % 25;
-		insert( &startPtr, value );
-	}
-
-	// print the random list
-	printList( startPtr);
-
-	tempPtr = startPtr;
-
-	// Copy last value from tempPtr into newPtr and loop until tempPtr is empty
-	while ( tempPtr != NULL ) {
-		if ( tempPtr->nextPtr != NULL ) {  // if not at end of list, move to end of list
-			tempPtr = tempPtr->nextPtr;
-			printf( "\nmoving to end of list\n" );
-			printf( "%c", tempPtr->data );
-		} else {  // if at last item in tempPtr, copy value to newPtr, and delete value from startPtr
-			newPtr->data = tempPtr->data;
-			newPtr->nextPtr = NULL;
-			tempValue = tempPtr->data;
-			printf( "about to delete\n");
-			delete( tempPtr, tempValue );
-			printf( "just ran delete\n");
-		}
-	}
-	printList ( newPtr );
-
-}
-
-void insert( ListNodePtr *sPtr, char value )
-{
-	ListNodePtr newPtr;
-	ListNodePtr previousPtr;
-	ListNodePtr currentPtr;
-
-	newPtr = (struct listNode *)malloc( sizeof ( struct listNode ) );
-
-	if ( newPtr != NULL ) {
-		newPtr->data = value;
-		newPtr->nextPtr = NULL;
-
-		previousPtr = NULL;
-		currentPtr = *sPtr;
-
-		while ( currentPtr != NULL && value > currentPtr->data ) {
-			previousPtr = currentPtr;
-			currentPtr = currentPtr->nextPtr;
-		}
-
-		if ( previousPtr == NULL ) {
-			newPtr->nextPtr = *sPtr;
-			*sPtr = newPtr;
-		} else {
-			previousPtr->nextPtr = newPtr;
-			newPtr->nextPtr = currentPtr;
-		}
-	} else {
-		printf( "%c not inserted. No memory available.\n" );
+	struct node *curNode = first;
+	printf( "\n==================\n" );
+	while ( curNode != NULL ) {
+		printf( " %c ", curNode->data );
+		curNode = curNode->link;
 	}
 }
 
-int isEmpty( ListNodePtr sPtr )
+void reverse()
 {
-	return sPtr == NULL;
-}
+	struct node *curNode = first, *nextNode;
+	first = NULL;
 
-void printList( ListNodePtr currentPtr )
-{
-	if ( isEmpty( currentPtr ) ) {
-		puts( "List is empty.\n" );
-	} else {
-		puts( "The list is: " );
-		while ( currentPtr != NULL ) {
-			printf( "%c --> ", currentPtr->data );
-			currentPtr = currentPtr->nextPtr;
-		}
-		puts( "NULL\n" );
+	while ( curNode != NULL ) {
+		nextNode = curNode->link;
+
+		curNode->link = first;
+		first = curNode;
+
+		curNode = nextNode;
 	}
 }
- 
-char delete( ListNodePtr *sPtr, char value )
+
+int main( void )
 {
-	ListNodePtr previousPtr;
-	ListNodePtr currentPtr;
-	ListNodePtr tempPtr;
+	int i;
+	struct node *newnode;
 
-	if ( value == ( *sPtr )->data ) {
-		tempPtr = *sPtr;  // hold onto node being removed
-		*sPtr = ( *sPtr )->nextPtr; // de-thread the node
-		free( tempPtr ); // free the de-threaded node
-		return value;
-	} else {
-		previousPtr = *sPtr;
-		currentPtr = ( *sPtr )->nextPtr;
+	srand( time( NULL ) );
 
-		//loop to find the correct location in the list
-		while ( currentPtr != NULL && currentPtr->data != value ) {
-			previousPtr = currentPtr;  // walk to...
-			currentPtr = currentPtr->nextPtr;  // ... next node
-		}
-
-		// delete node at currentPtr
-		if ( currentPtr != NULL ) {
-			tempPtr = currentPtr;
-			previousPtr->nextPtr = currentPtr->nextPtr;
-			free( tempPtr );
-			return value;
-		}
+	for ( i = 0; i < 10; i++ ) {
+		newnode = (struct listNode *)malloc( sizeof( struct node ) );
+		newnode->data = 65 + rand() % 26;
+		newnode->link = first;
+		first = newnode;
 	}
-	return '\0';
-} // end function delete
 
+	printList();
+	
+	reverse();
+	printList();
 
+	printf( "\n==================\n" );
+
+	return 0;
+}
