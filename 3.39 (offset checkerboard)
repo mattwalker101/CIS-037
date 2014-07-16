@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 //Homework exercise 3.39, Matthew Walker
-
+// create an offset checkerboard pattern with loops
 int main()
 {
 
