@@ -12,16 +12,17 @@ struct node {
 	char data;
 	struct node *link;
 };
-static struct node *first = NULL;
+static struct node *first = NULL;  // this is the reversed list which is added across the functions
 
 
 static void printList() 
 {
 	struct node *curNode = first;
+
 	printf( "\n==================\n" );
 	while ( curNode != NULL ) {
-		printf( " %c ", curNode->data );
-		curNode = curNode->link;
+		printf( " %c ", curNode->data );  // print value
+		curNode = curNode->link;  // walk to next node
 	}
 }
 
@@ -30,13 +31,13 @@ void reverse()
 	struct node *curNode = first, *nextNode;
 	first = NULL;
 
-	while ( curNode != NULL ) {
-		nextNode = curNode->link;
+	while ( curNode != NULL ) {  // while not at the end of the list
+		nextNode = curNode->link;  // nextNode points to next record
 
-		curNode->link = first;
-		first = curNode;
+		curNode->link = first;  // next record in curNode points to reversed list
+		first = curNode;  // reverse list assigned value of curNode
 
-		curNode = nextNode;
+		curNode = nextNode;  // move to next node
 	}
 }
 
@@ -46,19 +47,19 @@ int main( void )
 	struct node *newnode;
 
 	srand( time( NULL ) );
-
+	// generate a random char, put it in the list and walk forward 
 	for ( i = 0; i < 10; i++ ) {
-		newnode = (struct listNode *)malloc( sizeof( struct node ) );
+		newnode = (struct node *)malloc( sizeof( struct node ) );
 		newnode->data = 65 + rand() % 26;
 		newnode->link = first;
 		first = newnode;
 	}
-
+	printf( "\nHere is my random list of characters.\n" );
 	printList();
 	
 	reverse();
-	printList();
 
+	printList();
 	printf( "\n==================\n" );
 
 	return 0;
