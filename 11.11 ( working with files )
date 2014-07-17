@@ -56,9 +56,8 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 	FILE *createPtr;
 	int i;
 	struct person pData = { "unassigned", "", "0" };
-	char lName[ 15 ];
 
-	if ( ( createPtr = fopen( FILENAME, "r+" ) ) == NULL ) {
+	if ( ( fopen_s( &createPtr, FILENAME, "r+" ) ) != 0 ) {
 		puts( "File could not be opened.\n" );
 	} else { // initialize with 100 blank records
 		for ( i = 0; i < 100; i++ ) {
@@ -67,7 +66,6 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 	}
 
 	fclose( createPtr );
-
 }
 
 
@@ -82,13 +80,13 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 	} else {
 		for ( i = 0; i < 10; i++ ) { // loop 10 times
 			printf( "Enter the last name to be added: " );
-			scanf( "%s", &pData.lastName );  // store user data in struct pData
+			scanf_s( "%s", &pData.lastName );  // store user data in struct pData
 	
 			printf( "Enter the first name to be added: " );
-			scanf( "%s", &pData.firstName );
+			scanf_s( "%s", &pData.firstName );
 
 			printf( "Enter the age to be added: " );
-			scanf( "%s", &pData.age );
+			scanf_s( "%s", &pData.age );
 
 			// write all the data to the file using pointer to file cfPtr
 			fwrite( &pData, sizeof( pData ), 1, addPtr );
@@ -109,17 +107,17 @@ void updateRecord( void )    // c) update a record
 		puts( "Trouble opening file for updating!\n" );
 	} else {
 		printf( "Enter the last name of the person whose record you wish to update: " );
-		scanf( "%s", &lName );
+		scanf_s( "%s", &lName );
 
 		while ( ( fread( &pData, sizeof( pData ), 1, updatePtr ) ) ) {
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
 				printf( "Enter the new data for that record : \n\n" );
 				printf( "\nEnter the lastname for that record : " );
-				scanf( "%s", &pData.lastName );
+				scanf_s( "%s", &pData.lastName );
 				printf( "\nEnter the firstname for that record : " );
-				scanf( "%s", &pData.firstName );
+				scanf_s( "%s", &pData.firstName );
 				printf( "\nEnter the age for that record : " );
-				scanf( "%s", &pData.age );
+				scanf_s( "%s", &pData.age );
 
 				fwrite( &pData, sizeof( pData ), 1, updatePtr );
 			}
@@ -139,7 +137,7 @@ void deleteRecord( void )       // d) delete a record
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
 		printf( "Enter the last name of the record you wish to delete : " );
-		scanf( "%s", lName );
+		scanf_s( "%s", lName );
 
 		while ( fread( &pData, sizeof( pData ), 1, deletePtr ) ) {
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
