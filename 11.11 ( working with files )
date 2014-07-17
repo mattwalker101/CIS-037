@@ -15,7 +15,7 @@ struct person {
 	char age[ 4 ];
 };
 
-void menuOptions( void );
+int menuOptions( void );
 void createBlank( void );
 void updateRecord( void );
 void addTenRecord( void );
@@ -146,3 +146,14 @@ void deleteRecord( void )       // d) delete a record
 
 	}
 }
+
+int menuOptions( void )
+{
+	int mChoice; 
+
+	printf( "/nWhat would you like to do today?\n" 
+			"(1) to create a new text file with 100 blank entries,\n" 
+			"(2) to update a single record,\n"
+			"(3) to add 10 user generated records,\n"
+			"(4) to delete a single record, or\n"
+			"(5) to end the program.\n" );
