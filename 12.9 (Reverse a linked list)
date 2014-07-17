@@ -12,7 +12,7 @@ struct node {
 	char data;
 	struct node *link;
 };
-static struct node *first = NULL;  // this is the reversed list which is added across the functions
+static struct node *first = NULL;  // this is the reversed list to which is added across the functions
 
 
 static void printList() 
@@ -54,6 +54,7 @@ int main( void )
 		newnode->link = first;
 		first = newnode;
 	}
+
 	printf( "\nHere is my random list of characters.\n" );
 	printList();
 	
