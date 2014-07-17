@@ -1,0 +1,148 @@
+/* Homework 11.11
+ * Matthew Walker, Windows VS2012
+ * Write statements to initialize a file, write 10 records, update a record, and delete a record
+ * 
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define FILENAME "nameage.txt"
+
+struct person {
+	char lastName[ 15 ];
+	char firstName[ 15 ];
+	char age[ 4 ];
+};
+
+void menuOptions( void );
+void createBlank( void );
+void updateRecord( void );
+void addTenRecord( void );
+void deleteRecord( void );
+void showFile( void );
+
+
+int main()
+{
+
+	int choice;
+
+	while ( ( choice = menuOptions() ) != 5 ) {
+		switch( choice ) {
+		case 1:
+			createBlank();	//create a text file with 100 blank entries
+			break;
+		case 2:
+			updateRecord();  // change values in one record 
+			break;
+		case 3:
+			addTenRecord();  // append 10 entries with user input
+			break;
+		case 4:
+			deleteRecord(); // delete a record specified by user
+			break;
+		default:
+			puts( "Invalid choice!\n" );
+			break;
+		}
+	}
+
+	return 0;
+}
+
+void createBlank( void )     // a) Initialize the file with 100 blank entries
+{
+	FILE *cfPtr;
+	int i;
+	struct person pData = { "unassigned", "", "0" };
+	char lName[ 15 ];
+
+	if ( ( cfPtr = fopen( FILENAME, "r+" ) ) == NULL ) {
+		puts( "File could not be opened.\n" );
+	} else { // initialize with 100 blank records
+		for ( i = 0; i < 100; i++ ) {
+			fwrite( &pData, sizeof( pData ), 1, cfPtr );
+		}
+	}
+
+	fclose( cfPtr );
+
+}
+
+
+void addTenRecord( void )   // b) Input 10 last names, first names and ages, and write them to the file
+{
+
+	if ( ( cfPtr = fopen( "nameage.dat", "a" ) ) == NULL ) {
+		puts( "Cannot open the file to append!\n" );
+	} else {
+		for ( i = 0; i < 10; i++ ) { // loop 10 times
+			printf( "Enter the last name to be added: " );
+			scanf( "%s", &pData.lastName );  // store user data in struct pData
+	
+			printf( "Enter the first name to be added: " );
+			scanf( "%s", &pData.firstName );
+
+			printf( "Enter the age to be added: " );
+			scanf( "%s", &pData.age );
+
+			// write all the data to the file using pointer to file cfPtr
+			fwrite( &pData, sizeof( pData ), 1, cfPtr );
+		}
+
+		fclose( cfPtr );
+	}
+}
+
+
+void updateRecord( void )    // c) update a record
+{
+
+	if ( ( cfPtr = fopen( "nameage.dat", "r+" ) ) == NULL ) {
+		puts( "Trouble opening file for updating!\n" );
+	} else {
+		printf( "Enter the last name of the person whose record you wish to update: " );
+		scanf( "%s", &lName );
+
+		while ( ( fread( &pData, sizeof( pData ), 1, cfPtr ) ) ) {
+			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
+				printf( "Enter the new data for that record : \n\n" );
+				printf( "\nEnter the lastname for that record : " );
+				scanf( "%s", &pData.lastName );
+				printf( "\nEnter the firstname for that record : " );
+				scanf( "%s", &pData.firstName );
+				printf( "\nEnter the age for that record : " );
+				scanf( "%s", &pData.age );
+
+				fwrite( &pData, sizeof( pData ), 1, cfPtr );
+			}
+		}
+		fclose( cfPtr );
+	}
+
+}
+
+void deleteRecord( void )       // d) delete a record
+{
+	if ( ( cfPtr = fopen( "nameage.dat", "r+" ) ) == NULL ) {
+		puts( "Problem opening the file for deletion!\n" );
+	} else {
+		printf( "Enter the last name of the record you wish to delete : " );
+		scanf( "%s", lName );
+
+		while ( ( fread( &pData, sizeof( pData ), 1, cfPtr ) ) ) {
+			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
+				strcpy( pData.lastName, "unassigned" );  // place unassigned in last name
+				strcpy( pData.firstName, "" ); // "" in firstName
+				strcpy( pData.age, "0" ); // and 0 for age
+
+				fseek( cfPtr, ( (-1)*(sizeof( pData ) ) ), SEEK_CUR );  // find position of record in cfPtr to be deleted
+
+				fwrite( &pData, ( sizeof ( pData ) ), 1, cfPtr );
+			}
+		}
+		fclose( cfPtr );
+
+	}
+}
