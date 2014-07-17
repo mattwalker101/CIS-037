@@ -53,28 +53,31 @@ int main()
 
 void createBlank( void )     // a) Initialize the file with 100 blank entries
 {
-	FILE *cfPtr;
+	FILE *createPtr;
 	int i;
 	struct person pData = { "unassigned", "", "0" };
 	char lName[ 15 ];
 
-	if ( ( cfPtr = fopen( FILENAME, "r+" ) ) == NULL ) {
+	if ( ( createPtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "File could not be opened.\n" );
 	} else { // initialize with 100 blank records
 		for ( i = 0; i < 100; i++ ) {
-			fwrite( &pData, sizeof( pData ), 1, cfPtr );
+			fwrite( &pData, sizeof( pData ), 1, createPtr );
 		}
 	}
 
-	fclose( cfPtr );
+	fclose( createPtr );
 
 }
 
 
 void addTenRecord( void )   // b) Input 10 last names, first names and ages, and write them to the file
 {
-
-	if ( ( cfPtr = fopen( "nameage.dat", "a" ) ) == NULL ) {
+	FILE *addPtr;
+	int i;
+	struct person pData;
+	
+	if ( ( fopen_s( &addPtr, FILENAME, "a" ) ) != 0 ) {
 		puts( "Cannot open the file to append!\n" );
 	} else {
 		for ( i = 0; i < 10; i++ ) { // loop 10 times
@@ -88,24 +91,27 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 			scanf( "%s", &pData.age );
 
 			// write all the data to the file using pointer to file cfPtr
-			fwrite( &pData, sizeof( pData ), 1, cfPtr );
+			fwrite( &pData, sizeof( pData ), 1, addPtr );
 		}
 
-		fclose( cfPtr );
+		fclose( addPtr );
 	}
 }
 
 
 void updateRecord( void )    // c) update a record
 {
+	FILE *updatePtr;
+	struct person pData;
+	char lName[ 15 ];
 
-	if ( ( cfPtr = fopen( "nameage.dat", "r+" ) ) == NULL ) {
+	if ( ( fopen_s( &updatePtr, FILENAME, "r+" ) ) != 0 ) {
 		puts( "Trouble opening file for updating!\n" );
 	} else {
 		printf( "Enter the last name of the person whose record you wish to update: " );
 		scanf( "%s", &lName );
 
-		while ( ( fread( &pData, sizeof( pData ), 1, cfPtr ) ) ) {
+		while ( ( fread( &pData, sizeof( pData ), 1, updatePtr ) ) ) {
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
 				printf( "Enter the new data for that record : \n\n" );
 				printf( "\nEnter the lastname for that record : " );
@@ -115,34 +121,38 @@ void updateRecord( void )    // c) update a record
 				printf( "\nEnter the age for that record : " );
 				scanf( "%s", &pData.age );
 
-				fwrite( &pData, sizeof( pData ), 1, cfPtr );
+				fwrite( &pData, sizeof( pData ), 1, updatePtr );
 			}
 		}
-		fclose( cfPtr );
+		fclose( updatePtr );
 	}
 
 }
 
 void deleteRecord( void )       // d) delete a record
 {
-	if ( ( cfPtr = fopen( "nameage.dat", "r+" ) ) == NULL ) {
+	FILE *deletePtr;
+	struct person pData;
+	char lName[ 15 ];
+
+	if ( ( fopen_s( &deletePtr, FILENAME, "r+" ) ) != 0 ) {
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
 		printf( "Enter the last name of the record you wish to delete : " );
 		scanf( "%s", lName );
 
-		while ( ( fread( &pData, sizeof( pData ), 1, cfPtr ) ) ) {
+		while ( fread( &pData, sizeof( pData ), 1, deletePtr ) ) {
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
 				strcpy( pData.lastName, "unassigned" );  // place unassigned in last name
 				strcpy( pData.firstName, "" ); // "" in firstName
 				strcpy( pData.age, "0" ); // and 0 for age
 
-				fseek( cfPtr, ( (-1)*(sizeof( pData ) ) ), SEEK_CUR );  // find position of record in cfPtr to be deleted
+				fseek( deletePtr, sizeof( pData ), SEEK_CUR );  // find position of record in cfPtr to be deleted
 
-				fwrite( &pData, ( sizeof ( pData ) ), 1, cfPtr );
+				fwrite( &pData, sizeof ( pData ), 1, deletePtr );
 			}
 		}
-		fclose( cfPtr );
+		fclose( deletePtr );
 
 	}
 }
@@ -157,3 +167,22 @@ int menuOptions( void )
 			"(3) to add 10 user generated records,\n"
 			"(4) to delete a single record, or\n"
 			"(5) to end the program.\n" );
+	scanf( "%d", &mChoice );
+	return mChoice;
+}
+
+void showFile( void )
+{
+	FILE *showPtr;
+	struct person pData;
+
+	if ( ( fopen_s( &showPtr, FILENAME, "r" ) ) != 0 ) {
+		puts( "Can't open file for display!\n" );
+	} else {
+		while ( fread( &pData, sizeof( pData ), 1, showPtr ) ) {
+			printf( "%-16s%-16s%-5s\n", pData.lastName, pData.firstName, pData.age );
+		}
+	}
+	fclose( showPtr );
+}
+
