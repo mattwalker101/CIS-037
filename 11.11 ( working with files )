@@ -1,7 +1,7 @@
 /* Homework 11.11
  * Matthew Walker, Windows VS2012
  * Write statements to initialize a file, write 10 records, update a record, and delete a record
- * 
+ * NOT WORKING YET!!
  */
 
 #include <stdio.h>
@@ -61,7 +61,7 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 	int i;
 	struct person pData = { "unassigned", "", "0" };
 
-	if ( ( createPtr = fopen( FILENAME, "r+" ) ) == NULL ) {
+	if ( ( createPtr = fopen( FILENAME, "w+" ) ) == NULL ) {
 		puts( "File could not be opened.\n" );
 	} else { // initialize with 100 blank records
 		for ( i = 0; i < 100; i++ ) {
@@ -82,7 +82,7 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 	if ( ( fopen_s( &addPtr, FILENAME, "a" ) ) != 0 ) {
 		puts( "Cannot open the file to append!\n" );
 	} else {
-		for ( i = 0; i < 10; i++ ) { // loop 10 times
+		for ( i = 0; i < 2; i++ ) { // loop 10 times
 			printf( "Enter the last name to be added: " );
 			scanf( "%s", &pData.lastName );  // store user data in struct pData
 	
@@ -136,22 +136,28 @@ void deleteRecord( void )       // d) delete a record
 	FILE *deletePtr;
 	struct person pData;
 	char lName[ 15 ];
+	int count = 0;
 
 	if ( ( fopen_s( &deletePtr, FILENAME, "r+" ) ) != 0 ) {
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
 		printf( "Enter the last name of the record you wish to delete : " );
-		scanf( "%s", lName );
+		scanf( "%s", &lName );
 
-		while ( fread( &pData, sizeof( pData ), 1, deletePtr ) ) {
+		fread( &pData, sizeof( pData ), 1, deletePtr );
+		while ( !feof( deletePtr ) ) {
+			printf("\nInside the while for fread : %d times in\n", count++);
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
+				printf("\nInside the if to compare last names\n");
 				strcpy( pData.lastName, "unassigned" );  // place unassigned in last name
 				strcpy( pData.firstName, "" ); // "" in firstName
 				strcpy( pData.age, "0" ); // and 0 for age
 
+				printf("\nAbout to fseek\n");
 				fseek( deletePtr, sizeof( pData ), SEEK_CUR );  // find position of record in cfPtr to be deleted
-
+				printf("\ndid fseek\n");
 				fwrite( &pData, sizeof ( pData ), 1, deletePtr );
+				printf("\n did fwrite\n");
 			}
 		}
 		fclose( deletePtr );
@@ -163,8 +169,8 @@ int menuOptions( void )
 {
 	int mChoice; 
 
-	printf( "/nWhat would you like to do today?\n" 
-			"(1) to create a new text file with 100 blank entries,\n" 
+	printf( "\n===========================\nWhat would you like to do today?\n\n" 
+			"(1) to create a blank text file and add 100 blank entries,\n" 
 			"(2) to update a single record,\n"
 			"(3) to add 10 user generated records,\n"
 			"(4) to delete a single record, or\n"
