@@ -79,7 +79,7 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 	int i;
 	struct person pData;
 	
-	if ( ( fopen_s( &addPtr, FILENAME, "a" ) ) != 0 ) {
+	if ( ( addPtr = fopen( FILENAME, "a" ) ) == NULL ) {
 		puts( "Cannot open the file to append!\n" );
 	} else {
 		for ( i = 0; i < 2; i++ ) { // loop 10 times
@@ -107,7 +107,7 @@ void updateRecord( void )    // c) update a record
 	struct person pData;
 	char lName[ 15 ];
 
-	if ( ( fopen_s( &updatePtr, FILENAME, "r+" ) ) != 0 ) {
+	if ( ( updatePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "Trouble opening file for updating!\n" );
 	} else {
 		printf( "Enter the last name of the person whose record you wish to update: " );
@@ -136,28 +136,29 @@ void deleteRecord( void )       // d) delete a record
 	FILE *deletePtr;
 	struct person pData;
 	char lName[ 15 ];
-	int count = 0;
+	int count;
 
-	if ( ( fopen_s( &deletePtr, FILENAME, "r+" ) ) != 0 ) {
+	if ( ( deletePtr = fopen( FILENAME, "r+" ) ) ==NULL ) {
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
 		printf( "Enter the last name of the record you wish to delete : " );
 		scanf( "%s", &lName );
 
 		fread( &pData, sizeof( pData ), 1, deletePtr );
-		while ( !feof( deletePtr ) ) {
-			printf("\nInside the while for fread : %d times in\n", count++);
+		// while ( !feof( deletePtr ) ) {
+		for ( count = 0; count < 200; count++ ) {
+			printf("\nInside the while for fgets : %d times in" );
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
-				printf("\nInside the if to compare last names\n");
+				printf("\nInside the if to compare last names");
 				strcpy( pData.lastName, "unassigned" );  // place unassigned in last name
 				strcpy( pData.firstName, "" ); // "" in firstName
 				strcpy( pData.age, "0" ); // and 0 for age
 
-				printf("\nAbout to fseek\n");
-				fseek( deletePtr, sizeof( pData ), SEEK_CUR );  // find position of record in cfPtr to be deleted
-				printf("\ndid fseek\n");
+			//	printf("\nAbout to fseek");
+			//	fseek( deletePtr, sizeof( pData ), SEEK_CUR );  // find position of record in cfPtr to be deleted
+			//	printf("\ndid fseek");
 				fwrite( &pData, sizeof ( pData ), 1, deletePtr );
-				printf("\n did fwrite\n");
+				printf("\n did fwrite");
 			}
 		}
 		fclose( deletePtr );
@@ -184,7 +185,7 @@ void showFile( void )
 	FILE *showPtr;
 	struct person pData;
 
-	if ( ( fopen_s( &showPtr, FILENAME, "r" ) ) != 0 ) {
+	if ( ( showPtr = fopen( FILENAME, "r" ) ) == NULL ) {
 		puts( "Can't open file for display!\n" );
 	} else {
 		while ( fread( &pData, sizeof( pData ), 1, showPtr ) ) {
