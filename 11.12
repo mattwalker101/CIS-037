@@ -102,7 +102,7 @@ void inputRecord( FILE *fPtr )
 		fwrite( &inputValue, sizeof( tools ), 1, fPtr );
 
 		printf( "Enter the quantity of this tool\n?" );
-		fscanf( stdin, "%s", inputValue.quantity );
+		fscanf( stdin, "%s", &inputValue.quantity );
 
 		printf( "Enter the tool cost\n?" );
 		fscanf( stdin, "%lf", &inputValue.cost);
@@ -213,7 +213,7 @@ void updateRecord( FILE *fPtr )
 	}
 }
 
-int modifyChoice( void)
+int modifyTool( void)
 {
 	int select_option;
 
@@ -226,7 +226,7 @@ int modifyChoice( void)
 	return( select_option );
 }
 
-int inputChoice( void )
+int mainMenu( void )
 {
 	int user_choice;
 
