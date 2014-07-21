@@ -1,0 +1,252 @@
+/* Homework 11.12
+ * Matthew Walker, Windows VS2012
+ * Hardware inventory program
+ * 1) initialize file "hardware.dat" to 100 empty records,
+ * 2) let user input tool data,
+ * 3) delete a record,
+ * 4) update any information in the file,
+ * 5) list all the tools.
+ * 
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#define FILENAME "hardware.dat"
+
+struct hardware_inventory {
+	unsigned int record;
+	char name[ 20 ];
+	char quantity;
+	float cost;
+};
+
+typedef struct hardware_inventory tools;
+
+int mainMenu( void );
+int modifyTool( void );
+void createRecord( FILE *cfPtr );
+void inputRecord( FILE *fPtr );
+void listRecord( FILE *readPtr );
+void deleteRecord( FILE *fPtr );
+void updateRecord( FILE *fPtr );
+
+int main( void )
+{
+	FILE *cfPtr;
+	int choice;
+
+	if ( ( cfPtr = fopen( FILENAME, "rb+" ) ) == NULL ) {
+		if ( ( cfPtr = fopen( FILENAME, "wb" ) ) == NULL ) {
+			puts( "Unable to open file." );
+		}
+	}
+
+	while ( ( choice = mainMenu() ) != 6 ) {
+		switch( choice ) {
+		case 1: 
+			createRecord( cfPtr );
+			break;
+		case 2:
+			inputRecord( cfPtr );
+			break;
+		case 3:
+			updateRecord( cfPtr );
+			break;
+		case 4:
+			deleteRecord( cfPtr );
+		case 5:
+			listRecord( cfPtr );
+			break;
+		default:
+			puts( "Invalid choice!" );
+			break;
+		}
+	}
+	fclose( cfPtr );
+
+	return 0;
+}
+
+void createRecord( FILE *fPtr )
+{
+	int count;
+	tools emptyRecord = { 0, "", "", 0.0 };
+
+	for ( count = 0; count < 100; count++ ) {
+		fwrite( &emptyRecord, sizeof( tools ), 1, fPtr );
+	}
+}
+
+void inputRecord( FILE *fPtr )
+{
+	tools inputValue = { 0, "", "", 0.0 };
+	int rIndex = 0;
+
+	printf( "Enter the record number\n(from 1-100, 0 to end)\n?" );
+	scanf( "%d", &inputValue.record );
+
+	while ( inputValue.record != 0 ) {
+		printf( "\nEnter the tool name: " );
+		while ( getchar() != '\n' );
+		fgets( inputValue.name, 20, stdin );
+
+		rIndex = strlen( inputValue.name) - 1;  // sub /n for /0 at end of string
+		if ( inputValue.name[rIndex] == '\n' )
+			inputValue.name[rIndex] = '\0';
+
+		printf( "The new tool name is %s\n", inputValue.name );
+
+		fseek( fPtr, (inputValue.record - 1 )*sizeof( tools ), SEEK_SET );
+
+		fwrite( &inputValue, sizeof( tools ), 1, fPtr );
+
+		printf( "Enter the quantity of this tool\n?" );
+		fscanf( stdin, "%s", inputValue.quantity );
+
+		printf( "Enter the tool cost\n?" );
+		fscanf( stdin, "%lf", &inputValue.cost);
+
+		fseek( fPtr, ( inputValue.record - 1 )*sizeof( tools ), SEEK_SET );
+
+		fwrite( &inputValue, sizeof( tools ), 1, fPtr );
+
+		printf( "Enter another record number\n(from 1-100, 0 to end)\n?" );
+		scanf( "%d", &inputValue.record );
+	}
+}
+
+void listRecord( FILE *readPtr )
+{
+	FILE *wfPtr;
+	tools list = { 0, "", "", 0.0 };
+
+	if ( ( wfPtr = fopen( FILENAME, "w" ) ) == NULL ) {
+		puts( "File cannot be opened!" );
+	} else {
+		rewind( readPtr );
+		fprintf( wfPtr, "%-8s\t%13s\t%-8s\t%12s\n", "Record", "Tool Name", "Quantity", "Cost" );
+
+		while ( !feof( readPtr ) ) {
+			fread( &list, sizeof( tools ), 1, readPtr );
+			if ( list.record != 0 ) {
+				fprintf( wfPtr, "%-8d\t%11s\t%20s\t%12.2f\n", list.record, list.name, list.quantity, list.cost );
+			}
+		}
+
+		fclose( wfPtr );
+	}
+}
+
+void deleteRecord( FILE *fPtr )
+{
+	int recordValue;
+	tools delData;
+	tools emptyData = { 0, "", "", 0.0 };
+
+	printf( "Enter the record number to delete (1-100): " );
+	scanf( "%d", &recordValue );
+
+	while (recordValue != -1 ) {
+		fseek( fPtr, (recordValue - 1)*sizeof( tools ), SEEK_SET );
+		fread( &delData, sizeof( tools ), 1, fPtr );
+		if (delData.record == 0 ) {
+			printf( "Record  %d  does not exist!\n\n", recordValue );
+		} else {
+			fseek( fPtr, (recordValue - 1)*sizeof( tools ), SEEK_SET );
+			fwrite( &emptyData, sizeof( tools ), 1, fPtr );
+			printf( "%-6d%-21s%-6s%-10.2f\n\n", delData.record, delData.name, delData.quantity, delData.cost );
+		}
+
+		printf( "Enter the record number to delete (1-100), -1 to exit: " );
+		scanf( "%d", &recordValue );
+	}
+}
+
+void updateRecord( FILE *fPtr )
+{
+	int recordValue;
+	int userOption;
+	int x = 0;
+
+	tools updateData = { 0, "", "", 0.0 };
+	printf( "Enter the record number to update (1-100): " );
+	scanf( "%d", &recordValue );
+
+	while ( recordValue != -1 ) { 
+		fseek( fPtr, ( recordValue - 1 )*sizeof( tools ), SEEK_SET );
+		fread( &updateData, sizeof( tools ), 1, fPtr );
+		if ( updateData.record == 0 ) {
+			printf( "No data for that record!\n" );
+		} else {
+			printf( "%-6d%-21s%-6s%-10.2f\n\n", updateData.record, updateData.name, updateData.quantity, updateData.cost );
+
+			while ( getchar() != '\n' ) {
+				switch ( userOption ) {
+				case 1:
+					printf( "Enter the name of the new tool: " );
+					fgets( updateData.name, 20, stdin );
+					x = strlen( updateData.name ) - 1;
+					if (updateData.name[x] == '\n' )
+						updateData.name[x] = '\0';
+					break;
+				case 2:
+					printf( "Enter the new tool quantity: " );
+					fscanf( stdin, "%s", updateData.quantity );
+					break;
+				case 3:
+					printf( "Enter the new price: " );
+					fscanf( stdin, "%lf", &updateData.cost );
+					break;
+				default:
+					printf( "Invalid choice!\n" );
+					break;
+				}
+			}
+
+			printf( "%-6d%-21s%-6s%-10.2f\n\n", updateData.record, updateData.name, updateData.quantity, updateData.cost );
+			fseek( fPtr, (recordValue - 1)*sizeof( tools ), SEEK_SET );
+			fwrite( &updateData, sizeof( tools ), 1, fPtr );
+		}
+		printf( "Enter the record number to update (1-100), -1 to exit: " );
+		scanf( "%d", &recordValue );
+	}
+}
+
+int modifyChoice( void)
+{
+	int select_option;
+
+	printf( "\nSelect an option\n"
+			"1) Update tool name\n"
+			"2) Update tool quantity\n"
+			"3) Update tool cost\n"
+			"4) End update\n?" );
+	scanf( "%d", &select_option );
+	return( select_option );
+}
+
+int inputChoice( void )
+{
+	int user_choice;
+
+	printf( "\nSelect your choice\n"
+			"1) Create 100 empty records to \"hardware.dat\" \n"
+			"2) Input records\n"
+			"3) Update records\n"
+			"4) Delete records\n"
+			"5) Store records in formatted text file called\n"
+			"\"hardware.txt\" for printing\n"
+			"6) Exit program\n?" );
+	scanf( "%d", &user_choice );
+	return( user_choice );
+}
+
+
+		
+
+
+
+
+
+	
