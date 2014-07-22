@@ -1,0 +1,57 @@
+/* Homework 11.16
+ * Matthew Walker, Windows VS2012
+ * Using sizeof operator, determine sizes in bytes of all the data types
+ * Write results to "datasize.dat" to be printed later
+ */
+
+#include <stdio.h>
+
+#define FILENAME "datasize.dat"
+
+int main()
+{
+	FILE *fPtr;
+
+	fPtr = fopen( FILENAME, "w+" );
+
+	fprintf( fPtr, "%s\t\t%s\n", "Data Type", "Size" );
+	printf( "%s\t\t%s\n", "Data Type", "Size" );
+
+	fprintf( fPtr, "%s\t\t\t%d\n", "char", sizeof( char ) );
+	printf( "%s\t\t\t%d\n", "char", sizeof( char ) );
+
+	fprintf( fPtr, "%s\t\t%d\n", "unsigned char", sizeof( unsigned char ) );
+	printf( "%s\t\t%d\n", "unsigned char", sizeof( unsigned char ) );
+
+	fprintf( fPtr, "%s\t\t%d\n", "short int", sizeof( short int ) );
+	printf( "%s\t\t%d\n", "short int", sizeof( short int ) );
+
+	fprintf( fPtr, "%s\t%d\n", "unsigned short int", sizeof( unsigned short int ) );
+	printf( "%s\t%d\n", "unsigned short int", sizeof( unsigned short int ) );
+
+	fprintf( fPtr, "%s\t\t\t%d\n", "int", sizeof( int ) );
+	printf( "%s\t\t\t%d\n", "int", sizeof( int ) );
+
+	fprintf( fPtr, "%s\t\t%d\n", "unsigned int", sizeof( unsigned int ) );
+	printf( "%s\t\t%d\n", "unsigned int", sizeof( unsigned int ) );
+
+	fprintf( fPtr, "%s\t\t%d\n", "long int", sizeof( long int ) );
+	printf( "%s\t\t%d\n", "long int", sizeof( long int ) );
+
+	fprintf( fPtr, "%s\t%d\n", "unsigned long int", sizeof( unsigned long int ) );
+	printf( "%s\t%d\n", "unsigned long int", sizeof( unsigned long int ) );
+
+	fprintf( fPtr, "%s\t\t\t%d\n", "float", sizeof( float ) );
+	printf( "%s\t\t\t%d\n", "float", sizeof( float ) );
+
+	fprintf( fPtr, "%s\t\t\t%d\n", "double", sizeof( double ) );
+	printf( "%s\t\t\t%d\n", "double", sizeof( double ) );
+
+	fprintf( fPtr, "%s\t\t%d\n", "long double", sizeof( long double ) );
+	printf( "%s\t\t%d\n", "long double", sizeof( long double ) );
+
+	fclose( fPtr );
+
+	return 0;
+}
+
