@@ -100,8 +100,6 @@ void inputRecord( FILE *fPtr )
 		if ( inputValue.name[rIndex] == '\n' )
 			inputValue.name[rIndex] = '\0';
 
-		printf( "The new tool name is %s\n", inputValue.name );
-
 		fseek( fPtr, (inputValue.record - 1 )*sizeof( tools ), SEEK_SET );
 
 		fwrite( &inputValue, sizeof( tools ), 1, fPtr );
@@ -125,6 +123,7 @@ void listRecord( FILE *readPtr )
 {
 	FILE *wfPtr;
 	tools list = { 0, "", "", 0.0 };
+	int result;
 
 	if ( ( wfPtr = fopen( "hardware.txt", "w" ) ) == NULL ) {
 		puts( "File cannot be opened!" );
@@ -138,13 +137,16 @@ void listRecord( FILE *readPtr )
 				fprintf( wfPtr, "%-8d\t%13s\t%8s\t%12.2f\n", list.record, list.name, list.quantity, list.cost );
 			}
 		}
-
+		printf( "\n==========================="
+				"\n=  \"hardware.txt\" CREATED ="
+				"\n===========================\n\n" );
+	
 		fclose( wfPtr );
 
-		printf( "\n========================="
-				"\n=  \"hardware.txt\" CREATED ="
-				"\n=========================\n\n" );
+		
 	}
+
+
 }
 
 void deleteRecord( FILE *fPtr )
@@ -168,7 +170,7 @@ void deleteRecord( FILE *fPtr )
 		}
 		printf( "\n==================="
 				"\n= Record Deleted! ="
-				"\n===================" );
+				"\n===================\n\n" );
 
 
 		printf( "Enter the record number to delete (1-100), -1 to exit: " );
@@ -222,7 +224,7 @@ void updateRecord( FILE *fPtr )
 			fwrite( &updateData, sizeof( tools ), 1, fPtr );
 			printf( "\n==================="
 					"\n= Record Updated! ="
-					"\n===================" );
+					"\n===================\n\n" );
 
 		}
 		
