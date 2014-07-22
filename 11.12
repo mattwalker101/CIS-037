@@ -17,7 +17,7 @@
 struct hardware_inventory {
 	unsigned int record;
 	char name[ 20 ];
-	char quantity;
+	char quantity[ 4 ];
 	float cost;
 };
 
@@ -55,6 +55,7 @@ int main( void )
 			break;
 		case 4:
 			deleteRecord( cfPtr );
+			break;
 		case 5:
 			listRecord( cfPtr );
 			break;
@@ -180,27 +181,27 @@ void updateRecord( FILE *fPtr )
 			printf( "No data for that record!\n" );
 		} else {
 			printf( "%-6d%-21s%-6s%-10.2f\n\n", updateData.record, updateData.name, updateData.quantity, updateData.cost );
-
-			while ( getchar() != '\n' ) {
+			while ( ( userOption = modifyTool() ) != 4 ) {
+				while ( getchar() != '\n' );
 				switch ( userOption ) {
-				case 1:
-					printf( "Enter the name of the new tool: " );
-					fgets( updateData.name, 20, stdin );
-					x = strlen( updateData.name ) - 1;
-					if (updateData.name[x] == '\n' )
-						updateData.name[x] = '\0';
-					break;
-				case 2:
-					printf( "Enter the new tool quantity: " );
-					fscanf( stdin, "%s", updateData.quantity );
-					break;
-				case 3:
-					printf( "Enter the new price: " );
-					fscanf( stdin, "%lf", &updateData.cost );
-					break;
-				default:
-					printf( "Invalid choice!\n" );
-					break;
+					case 1:
+						printf( "Enter the name of the new tool: " );
+						fgets( updateData.name, 20, stdin );
+						x = strlen( updateData.name ) - 1;
+						if (updateData.name[x] == '\n' )
+							updateData.name[x] = '\0';
+						break;
+					case 2:
+						printf( "Enter the new tool quantity: " );
+						fscanf( stdin, "%s", updateData.quantity );
+						break;
+					case 3:
+						printf( "Enter the new price: " );
+						fscanf( stdin, "%lf", &updateData.cost );
+						break;
+					default:
+						printf( "Invalid choice!\n" );
+						break;
 				}
 			}
 
@@ -208,6 +209,7 @@ void updateRecord( FILE *fPtr )
 			fseek( fPtr, (recordValue - 1)*sizeof( tools ), SEEK_SET );
 			fwrite( &updateData, sizeof( tools ), 1, fPtr );
 		}
+		
 		printf( "Enter the record number to update (1-100), -1 to exit: " );
 		scanf( "%d", &recordValue );
 	}
