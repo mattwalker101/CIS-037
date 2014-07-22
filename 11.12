@@ -77,6 +77,9 @@ void createRecord( FILE *fPtr )
 	for ( count = 0; count < 100; count++ ) {
 		fwrite( &emptyRecord, sizeof( tools ), 1, fPtr );
 	}
+	printf( "\n========================="
+			"\n=  %s CREATED ="
+			"\n=========================\n\n", FILENAME );
 }
 
 void inputRecord( FILE *fPtr )
@@ -132,11 +135,15 @@ void listRecord( FILE *readPtr )
 		while ( !feof( readPtr ) ) {
 			fread( &list, sizeof( tools ), 1, readPtr );
 			if ( list.record != 0 ) {
-				fprintf( wfPtr, "%-8d\t%11s\t%20s\t%12.2f\n", list.record, list.name, list.quantity, list.cost );
+				fprintf( wfPtr, "%-8d\t%13s\t%8s\t%12.2f\n", list.record, list.name, list.quantity, list.cost );
 			}
 		}
 
 		fclose( wfPtr );
+
+		printf( "\n========================="
+				"\n=  \"hardware.txt\" CREATED ="
+				"\n=========================\n\n" );
 	}
 }
 
@@ -159,6 +166,10 @@ void deleteRecord( FILE *fPtr )
 			fwrite( &emptyData, sizeof( tools ), 1, fPtr );
 			printf( "%-6d%-21s%-6s%-10.2f\n\n", delData.record, delData.name, delData.quantity, delData.cost );
 		}
+		printf( "\n==================="
+				"\n= Record Deleted! ="
+				"\n===================" );
+
 
 		printf( "Enter the record number to delete (1-100), -1 to exit: " );
 		scanf( "%d", &recordValue );
@@ -209,6 +220,10 @@ void updateRecord( FILE *fPtr )
 			printf( "%-6d%-21s%-6s%-10.2f\n\n", updateData.record, updateData.name, updateData.quantity, updateData.cost );
 			fseek( fPtr, (recordValue - 1)*sizeof( tools ), SEEK_SET );
 			fwrite( &updateData, sizeof( tools ), 1, fPtr );
+			printf( "\n==================="
+					"\n= Record Updated! ="
+					"\n===================" );
+
 		}
 		
 		printf( "Enter the record number to update (1-100), -1 to exit: " );
@@ -221,10 +236,11 @@ int modifyTool( void)
 	int select_option;
 
 	printf( "\nSelect an option\n"
+			"\n================\n"
 			"1) Update tool name\n"
 			"2) Update tool quantity\n"
 			"3) Update tool cost\n"
-			"4) End update\n?" );
+			"4) End update\n ?" );
 	scanf( "%d", &select_option );
 	return( select_option );
 }
@@ -233,14 +249,15 @@ int mainMenu( void )
 {
 	int user_choice;
 
-	printf( "\nSelect your choice\n"
+	printf( "\n===================\nSelect your choice\n"
+			"==================\n"
 			"1) Create 100 empty records to \"hardware.dat\" \n"
 			"2) Input records\n"
 			"3) Update records\n"
 			"4) Delete records\n"
 			"5) Store records in formatted text file called\n"
 			"\"hardware.txt\" for printing\n"
-			"6) Exit program\n?" );
+			"6) Exit program\n ?" );
 	scanf( "%d", &user_choice );
 	return( user_choice );
 }
