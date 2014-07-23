@@ -69,7 +69,8 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 			fwrite( &blankData, sizeof( struct person ), 1, createPtr );
         }
 	}
-    
+    printf( "\n=========================="
+			"\n= \"%s\" created! =", FILENAME );
 	fclose( createPtr );
 }
 
@@ -184,7 +185,7 @@ void deleteRecord( void )       // d) delete a record
 
 		//display error if record doesn't exist
 		if ( pData.number == 0 ) {
-			printf( "Account %d does not exist!\n\n" , accountNum );
+			printf( "\nAccount %d does not exist!\n\n" , accountNum );
 		} else {  // delete record by replacing existing record with blank record
 			fseek( deletePtr, ( accountNum - 1 )*sizeof( struct person ), SEEK_SET );
 			fwrite( &emptyData, sizeof( struct person ), 1, deletePtr );
@@ -197,7 +198,7 @@ int menuOptions( void )
 {
 	int mChoice;
     
-	printf( "\n===========================\nWhat would you like to do today?\n\n"
+	printf( "\n==========================\nWhat would you like to do today?\n\n"
            "(1) to create a blank text file and add 100 blank entries,\n"
            "(2) to update a single record,\n"
            "(3) to add a user generated record,\n"
