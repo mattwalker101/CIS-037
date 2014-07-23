@@ -1,7 +1,7 @@
 /* Homework 11.11
  * Matthew Walker, Windows VS2012
  * Write statements to initialize a file, write 10 records, update a record, and delete a record
- * NOT WORKING YET!!
+ *
  */
 
 #include <stdio.h>
@@ -66,7 +66,7 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 	if ( ( createPtr = fopen( FILENAME, "wb" ) ) == NULL ) {
 		puts( "File could not be opened.\n" );
 	} else { // initialize with 100 blank records
-		for ( i = 0; i < 10; i++ ) {
+		for ( i = 0; i < 100; i++ ) {
 			fwrite( &blankData, sizeof( struct person ), 1, createPtr );
         }
 	}
@@ -75,7 +75,7 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 }
 
 
-void addTenRecord( void )   // b) Input 10 last names, first names and ages, and write them to the file
+void addTenRecord( void )   // b) Input account number, last name, first name and age, and write them to the file
 {
 	FILE *addPtr;
 	unsigned int accountNum;
@@ -94,7 +94,8 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 
 			// display error if account already exists
 			if ( pData.number != 0 ) {
-				printf( "Account #%d already contains information!\n", pData.number );
+				printf( "\nAccount #%d already contains information!\n\n", pData.number );
+				break;
 			} else {  // create record
 				 printf( "Enter the last name to be added: " );
 				scanf( "%s", &pData.lastName );  // store user data in struct pData
@@ -112,7 +113,7 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 			// write all the data to the file using pointer to file cfPtr
 			fwrite( &pData, sizeof( struct person ), 1, addPtr );
 		
-            printf( "Enter another record number to be added: "
+            printf( "\nEnter another record number to be added: "
                    "\n( 1 - 100) 0 to end:  " );
             scanf( "%d", &accountNum );
 			}
@@ -140,7 +141,7 @@ void updateRecord( void )    // c) update a record
         fread( &pData, sizeof( struct person ), 1, updatePtr );
         
         if ( pData.number == 0 ) {
-            printf( "Account #%d has no information!\n", account );
+            printf( "\nAccount #%d has no information!\n\n", account );
         } else {
             printf( "%-6d%-16s%-16s%-5s", pData.number, pData.lastName, pData.firstName, pData.age );
             
@@ -184,7 +185,7 @@ void deleteRecord( void )       // d) delete a record
 
 		//display error if record doesn't exist
 		if ( pData.number == 0 ) {
-			printf( "Account %d does not exist!\n" , accountNum );
+			printf( "Account %d does not exist!\n\n" , accountNum );
 		} else {  // delete record by replacing existing record with blank record
 			fseek( deletePtr, ( accountNum - 1 )*sizeof( struct person ), SEEK_SET );
 			fwrite( &emptyData, sizeof( struct person ), 1, deletePtr );
@@ -198,11 +199,11 @@ int menuOptions( void )
 	int mChoice;
     
 	printf( "\n===========================\nWhat would you like to do today?\n\n"
-           "(1) to create a blank text file and add 10 blank entries,\n"
+           "(1) to create a blank text file and add 100 blank entries,\n"
            "(2) to update a single record,\n"
            "(3) to add a user generated record,\n"
            "(4) to delete a single record, or\n"
-           "(5) to end the program.\n" );
+           "(5) to end the program.\n? " );
 	scanf( "%d", &mChoice );
 	return mChoice;
 }
@@ -216,7 +217,9 @@ void showFile( void )
 		puts( "Can't open file for display!\n" );
 	} else {
 		while ( fread( &pData, sizeof( pData ), 1, showPtr ) ) {
-			printf( "%-4d%-16s%-16s%-5s\n", pData.number, pData.lastName, pData.firstName, pData.age );
+			if ( pData.number != 0 ) {
+				printf( "%-4d%-16s%-16s%-5s\n", pData.number, pData.lastName, pData.firstName, pData.age );
+			}
 		}
 	}
 	fclose( showPtr );
