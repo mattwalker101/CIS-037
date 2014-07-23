@@ -1,11 +1,10 @@
 /* Homework 11.11
  * Matthew Walker, Windows VS2012
- * Write statements to initialize a file, write 10 records, update a record, and delete a record
+ * Write statements to initialize a file, add user inputted records, update a record, and delete a record
  *
  */
 
 #include <stdio.h>
-#include <string.h>
 
 #define FILENAME "nameage.txt"
 
