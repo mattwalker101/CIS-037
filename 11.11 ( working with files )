@@ -10,6 +10,7 @@
 #define FILENAME "nameage.txt"
 
 struct person {
+    unsigned int number;
 	char lastName[ 15 ];
 	char firstName[ 15 ];
 	char age[ 4 ];
@@ -25,50 +26,51 @@ void showFile( void );
 
 int main()
 {
-
+    
 	int choice;
-
+    
 	while ( ( choice = menuOptions() ) != 5 ) {
 		switch( choice ) {
-		case 1:
-			createBlank();	//create a text file with 100 blank entries
-			showFile();
-			break;
-		case 2:
-			updateRecord();  // change values in one record 
-			showFile();
-			break;
-		case 3:
-			addTenRecord();  // append 10 entries with user input
-			showFile();
-			break;
-		case 4:
-			deleteRecord(); // delete a record specified by user
-			showFile();
-			break;
-		default:
-			puts( "Invalid choice!\n" );
-			break;
+            case 1:
+                createBlank();	//create a text file with 10 blank entries
+                showFile();
+                break;
+            case 2:
+                showFile();
+                updateRecord();  // change values in one record
+                showFile();
+                break;
+            case 3:
+                addTenRecord();  // append 2 entries with user input
+                showFile();
+                break;
+            case 4:
+                deleteRecord(); // delete a record specified by user
+                showFile();
+                break;
+            default:
+                puts( "Invalid choice!\n" );
+                break;
 		}
 	}
-
+    
 	return 0;
 }
 
 void createBlank( void )     // a) Initialize the file with 100 blank entries
 {
 	FILE *createPtr;
-	int i;
-	struct person pData = { "unassigned", "", "0" };
-
-	if ( ( createPtr = fopen( FILENAME, "w+" ) ) == NULL ) {
+	int i = 0;
+	struct person blankData = { 0, "unassigned", "", "0" };
+    
+	if ( ( createPtr = fopen( FILENAME, "wb" ) ) == NULL ) {
 		puts( "File could not be opened.\n" );
 	} else { // initialize with 100 blank records
 		for ( i = 0; i < 10; i++ ) {
-			fwrite( &pData, sizeof( pData ), 1, createPtr );
-		}
+			fwrite( &blankData, sizeof( struct person ), 1, createPtr );
+        }
 	}
-
+    
 	fclose( createPtr );
 }
 
@@ -77,25 +79,36 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 {
 	FILE *addPtr;
 	int i;
-	struct person pData;
+	struct person pData = { 0, "unassigned", "", "0" };
 	
-	if ( ( addPtr = fopen( FILENAME, "a+" ) ) == NULL ) {
-		puts( "Cannot open the file to append!\n" );
+	if ( ( addPtr = fopen( FILENAME, "rb+" ) ) == NULL ) {
+		puts( "Cannot open the file to add records!\n" );
 	} else {
-		for ( i = 0; i < 2; i++ ) { // loop 10 times
-			printf( "Enter the last name to be added: " );
-			scanf( "%s", &pData.lastName );  // store user data in struct pData
-	
-			printf( "Enter the first name to be added: " );
-			scanf( "%s", &pData.firstName );
-
+        printf( "Enter the record number to be added: "
+                "\n( 1 - 100) 0 to end:  " );
+        scanf( "%d", &pData.number );
+        
+        while ( &pData.number != 0 ) {
+            printf( "Enter the last name to be added: " );
+            scanf( "%s", &pData.lastName );  // store user data in struct pData
+            
+            printf( "Enter the first name to be added: " );
+            scanf( "%s", &pData.firstName );
+            
 			printf( "Enter the age to be added: " );
 			scanf( "%s", &pData.age );
-
+            
+            fseek( addPtr, ( pData.number - 1 )*sizeof( pData ), SEEK_SET );
+            
 			// write all the data to the file using pointer to file cfPtr
 			fwrite( &pData, sizeof( pData ), 1, addPtr );
-		}
+		
+            printf( "Enter the record number to be added: "
+                   "\n( 1 - 100) 0 to end:  " );
+            scanf( "%d", &pData.number );
 
+        }
+        
 		fclose( addPtr );
 	}
 }
@@ -103,64 +116,62 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 
 void updateRecord( void )    // c) update a record
 {
-	FILE *updatePtr;
-	struct person pData;
-	struct person updateData;
-	char lName[ 15 ];
-	int stop, counter = 0;
-
-	if ( ( updatePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
+    FILE *updatePtr;
+	struct person pData = { 0, "unassigned", "", "0" };
+    struct person updateData;
+    
+    if ( ( updatePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "Trouble opening file for updating!\n" );
 	} else {
-		printf( "Enter the last name of the person whose record you wish to update: " );
-		scanf( "%s", &lName );
-
-		while ( !feof( updatePtr ) ) {		// scan each record into pData until EOF
-			fread( &pData, sizeof( pData ), 1, updatePtr  );
-			counter++;
-			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
-				printf( "Enter the new data for that record : \n\n" );
-				printf( "\nEnter the lastname for that record : " );
-				scanf( "%s", &updateData.lastName );
-				printf( "\nEnter the firstname for that record : " );
-				scanf( "%s", &updateData.firstName );
-				printf( "\nEnter the age for that record : " );
-				scanf( "%s", &updateData.age );
-				stop = counter;		// mark the location of the match
-				break;
-			}
-		}
-
-		fclose( updatePtr );
-		if ( ( updatePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
-			puts( "Trouble opening file for updating!\n" );
-		} else {
-		
-			for ( counter = 0; counter < stop; counter++ ) {  // scan through file contents up to stop point
-				fread( &pData, sizeof( pData ), 1, updatePtr  );
-			}
-
-			fwrite( &updateData, sizeof( updateData ), 1, updatePtr );  // write the new data to that location
-		}
-	}
-	fclose( updatePtr );
-	
+        printf( "Enter the account number of the record you wish to update: " );
+        scanf( "%d", &updateData.number );
+        
+        fseek( updatePtr, ( updateData.number - 1)*sizeof( struct person ), SEEK_SET );
+        
+        fread( &pData, sizeof( struct person ), 1, updatePtr );
+        
+        if ( pData.number == 0 ) {
+            printf( "Account #%d has no information!\n", updateData.number );
+        } else {
+            printf( "%-6d%-16s%-16s%-5s", pData.number, pData.lastName, pData.firstName, pData.age );
+            
+            //request updated info from user
+            printf( "\nEnter the lastname for that record : " );
+            scanf( "%s", &updateData.lastName );
+            printf( "\nEnter the firstname for that record : " );
+            scanf( "%s", &updateData.firstName );
+            printf( "\nEnter the age for that record : " );
+            scanf( "%s", &updateData.age );
+            
+            // move file pointer to correct record in file
+            fseek( updatePtr, ( updateData.number - 1 )*sizeof( struct person ), SEEK_SET );
+            
+            // write updated record over old record in file
+            fwrite( &updateData, sizeof( struct person ), 1, updatePtr );
+        }
+    }
 }
 
 void deleteRecord( void )       // d) delete a record
 {
 	FILE *deletePtr;
 	struct person pData;
-	char lName[ 15 ];
-	int count;
-	struct person emptyData = { "unassigned", "", "0" };
-
-	if ( ( deletePtr = fopen( FILENAME, "r+" ) ) ==NULL ) {
+	struct person emptyData = { 0, "unassigned", "", "0" };
+    
+    unsigned int accountNum;
+    
+	if ( ( deletePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
-		printf( "Enter the last name of the record you wish to delete : " );
+		printf( "Enter the account number of the record you wish to delete: " );
+        
+        
+        
+        
+        /*
+        printf( "Enter the last name of the record you wish to delete : " );
 		scanf( "%s", &lName );
-
+        
 		fread( &pData, sizeof( pData ), 1, deletePtr );
 		// while ( !feof( deletePtr ) ) {
 		for ( count = 0; count < 20; count++ ) {
@@ -168,26 +179,28 @@ void deleteRecord( void )       // d) delete a record
 			fread( &pData, sizeof( pData ), 1, deletePtr );
 			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
 				printf("\nInside the if to compare last names");
-				fwrite( &emptyData, sizeof( emptyData ), 1, deletePtr ); 
+				fwrite( &emptyData, sizeof( emptyData ), 1, deletePtr );
 				printf("\n did fwrite");
 			}
-	// 	}
+            // 	}
 		}
 		fclose( deletePtr );
-
+        
 	}
 }
 
+         */
+        
 int menuOptions( void )
 {
-	int mChoice; 
-
-	printf( "\n===========================\nWhat would you like to do today?\n\n" 
-			"(1) to create a blank text file and add 10 blank entries,\n" 
-			"(2) to update a single record,\n"
-			"(3) to add 2 user generated records,\n"
-			"(4) to delete a single record, or\n"
-			"(5) to end the program.\n" );
+	int mChoice;
+    
+	printf( "\n===========================\nWhat would you like to do today?\n\n"
+           "(1) to create a blank text file and add 10 blank entries,\n"
+           "(2) to update a single record,\n"
+           "(3) to add a user generated record,\n"
+           "(4) to delete a single record, or\n"
+           "(5) to end the program.\n" );
 	scanf( "%d", &mChoice );
 	return mChoice;
 }
@@ -196,12 +209,12 @@ void showFile( void )
 {
 	FILE *showPtr;
 	struct person pData;
-
+    
 	if ( ( showPtr = fopen( FILENAME, "r" ) ) == NULL ) {
 		puts( "Can't open file for display!\n" );
 	} else {
 		while ( fread( &pData, sizeof( pData ), 1, showPtr ) ) {
-			printf( "%-16s%-16s%-5s\n", pData.lastName, pData.firstName, pData.age );
+			printf( "%-4d%-16s%-16s%-5s\n", pData.number, pData.lastName, pData.firstName, pData.age );
 		}
 	}
 	fclose( showPtr );
