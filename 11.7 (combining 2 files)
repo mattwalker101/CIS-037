@@ -99,7 +99,12 @@ int main()
 			while ( !feof( tfile ) ) {
 				fread( &cData, sizeof( struct record ), 1, tfile );
 				if ( pData.account == cData.account ) { // if accounts match, add charges to balance
-
+					pData.balance += cData.amount;
+				}
+				fseek( newfile, ( pData.account - 1 )*( sizeof( struct record ), SEEK_SET );
+				fwrite( &pData, sizeof( struct record ), 1, newfile );
+			}
+		}
 				
 
 
