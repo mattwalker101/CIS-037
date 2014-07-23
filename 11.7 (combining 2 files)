@@ -1,0 +1,108 @@
+/* 11.7
+ * Matthew Walker, Windows VS2012
+ * 1) define both structs
+ * 2) open two files (create them... scanf->fprintf)
+ * 3) open mfile.dat in "rb" mode
+ * 4) open tfile.dat in "rb"
+ * 5) open newmaster
+ * 6) while (!feof(mfile) )
+		fread
+		while (!feof(tfile) )
+			fread
+			compare account numbers
+			update transaction
+		fwrite (newmasterfile)
+		*/
+
+#include <stdio.h>
+
+#define MFILENAME "master.dat"
+#define TFILENAME "transaction.dat"
+#define NEWFILENAME "newmaster.dat"
+
+struct record {
+	unsigned int account;
+	char name[ 15 ];
+	float balance;
+};
+
+struct charge {
+	unsigned int account;
+	float amount;
+};
+
+int main()
+{
+	FILE *mfile;
+	FILE *tfile;
+	FILE *newfile;
+
+	unsigned int accountNum;
+
+	struct record pData = { 0, "", 0.0 };
+	struct charge cData = { 0, 0.0 };
+
+	// open and add user data to master file
+	printf( "\nOPENING MASTER FILE!\n" );
+	if ( ( mfile = fopen( MFILENAME, "rb" ) ) == NULL ) {
+		puts( "Master file could not be opened!" );
+	} else {  // user enters data for master file
+		printf( "Enter following data for record...\n"
+			"Account number: ( 0 to end ) " );
+		scanf( "%d", &accountNum );
+		while ( accountNum != 0 ) { // get user data
+			printf( "Name: " );
+			scanf( "%s", &pData.name );
+			printf( "Balance: " );
+			scanf( "%f", &pData.balance );
+			pData.account = accountNum;
+			// move file pointer and write to mfile
+			fseek( mfile, ( accountNum - 1 )*sizeof( struct record ), SEEK_SET );
+			fwrite( &pData, sizeof( struct record ), 1, mfile ); 
+			printf( "Enter more data for record...\n"
+					"Account number: ( 0 to end ) " );
+			scanf( "%d", &accountNum );
+
+		}
+	}
+
+	// open and add user data to transaction file
+	printf( "\nOPENING TRANSACTION FILE!\n" );
+	if ( ( tfile = fopen( TFILENAME, "rb" ) ) == NULL ) {
+		puts( "Transaction file could not be opened!" );
+	} else {  // if no errors, prompt user for account number and charge
+		printf( "Enter the following data for record...\n" 
+			"Account number: (0 to end) " );
+		scanf( "%d", &accountNum );
+		while ( accountNum != 0 ) { // loop until user inputs 0 for account
+			printf( "Charge amount: " );
+			scanf( "%f", &cData. amount );
+			cData.account = accountNum;
+			fseek( tfile, ( accountNum - 1 )*sizeof( struct record ), SEEK_SET );
+			fwrite( &cData, sizeof( struct record ), 1, tfile );
+			printf( "Enter more transactions to record...\n"
+					"Account number: (0 to end) " );
+			scanf( "%d", &accountNum );
+		}
+	}
+
+	printf( "\nOPENING NEW MASTER FILE!\n" );
+	rewind( mfile );
+	rewind( tfile );
+	if ( ( newfile = fopen( NEWFILENAME, "wb" ) ) == NULL ) {
+		puts( "New master file could not be opened!" );
+	} else {
+		printf( "Lets start with entries from the master file!\n" );
+		while ( !feof( mfile ) ) {
+			
+			fread( &pData, sizeof( struct record ), 1, mfile );
+			while ( !feof( tfile ) ) {
+				fread( &cData, sizeof( struct record ), 1, tfile );
+				if ( pData.account == cData.account ) { // if accounts match, add charges to balance
+
+				
+
+
+
+
+
