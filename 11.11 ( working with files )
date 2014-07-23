@@ -78,7 +78,7 @@ void createBlank( void )     // a) Initialize the file with 100 blank entries
 void addTenRecord( void )   // b) Input 10 last names, first names and ages, and write them to the file
 {
 	FILE *addPtr;
-	int i;
+	unsigned int accountNum;
 	struct person pData = { 0, "unassigned", "", "0" };
 	
 	if ( ( addPtr = fopen( FILENAME, "rb+" ) ) == NULL ) {
@@ -86,31 +86,39 @@ void addTenRecord( void )   // b) Input 10 last names, first names and ages, and
 	} else {
         printf( "Enter the record number to be added: "
                 "\n( 1 - 100) 0 to end:  " );
-        scanf( "%d", &pData.number );
+        scanf( "%d", &accountNum );
         
-        while ( &pData.number != 0 ) {
-            printf( "Enter the last name to be added: " );
-            scanf( "%s", &pData.lastName );  // store user data in struct pData
+        while ( accountNum != 0 ) {
+			fseek( addPtr, ( accountNum - 1 )*sizeof( struct person ), SEEK_SET );
+			fread( &pData, sizeof( struct person ), 1, addPtr );
+
+			// display error if account already exists
+			if ( pData.number != 0 ) {
+				printf( "Account #%d already contains information!\n", pData.number );
+			} else {  // create record
+				 printf( "Enter the last name to be added: " );
+				scanf( "%s", &pData.lastName );  // store user data in struct pData
             
-            printf( "Enter the first name to be added: " );
-            scanf( "%s", &pData.firstName );
+			    printf( "Enter the first name to be added: " );
+			    scanf( "%s", &pData.firstName );
             
-			printf( "Enter the age to be added: " );
-			scanf( "%s", &pData.age );
+				printf( "Enter the age to be added: " );
+				scanf( "%s", &pData.age );
+
+				pData.number = accountNum;
             
-            fseek( addPtr, ( pData.number - 1 )*sizeof( pData ), SEEK_SET );
+            fseek( addPtr, ( pData.number - 1 )*sizeof( struct person ), SEEK_SET );
             
 			// write all the data to the file using pointer to file cfPtr
-			fwrite( &pData, sizeof( pData ), 1, addPtr );
+			fwrite( &pData, sizeof( struct person ), 1, addPtr );
 		
-            printf( "Enter the record number to be added: "
+            printf( "Enter another record number to be added: "
                    "\n( 1 - 100) 0 to end:  " );
-            scanf( "%d", &pData.number );
-
+            scanf( "%d", &accountNum );
+			}
         }
-        
-		fclose( addPtr );
-	}
+	}    
+	fclose( addPtr );
 }
 
 
@@ -118,38 +126,41 @@ void updateRecord( void )    // c) update a record
 {
     FILE *updatePtr;
 	struct person pData = { 0, "unassigned", "", "0" };
-    struct person updateData;
+
+	unsigned int account;
     
     if ( ( updatePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "Trouble opening file for updating!\n" );
 	} else {
         printf( "Enter the account number of the record you wish to update: " );
-        scanf( "%d", &updateData.number );
-        
-        fseek( updatePtr, ( updateData.number - 1)*sizeof( struct person ), SEEK_SET );
+        scanf( "%d", &account );
+        // move to correct record
+        fseek( updatePtr, ( account - 1)*sizeof( struct person ), SEEK_SET );
         
         fread( &pData, sizeof( struct person ), 1, updatePtr );
         
         if ( pData.number == 0 ) {
-            printf( "Account #%d has no information!\n", updateData.number );
+            printf( "Account #%d has no information!\n", account );
         } else {
             printf( "%-6d%-16s%-16s%-5s", pData.number, pData.lastName, pData.firstName, pData.age );
             
             //request updated info from user
             printf( "\nEnter the lastname for that record : " );
-            scanf( "%s", &updateData.lastName );
+            scanf( "%s", &pData.lastName );
             printf( "\nEnter the firstname for that record : " );
-            scanf( "%s", &updateData.firstName );
+            scanf( "%s", &pData.firstName );
             printf( "\nEnter the age for that record : " );
-            scanf( "%s", &updateData.age );
+            scanf( "%s", &pData.age );
+			pData.number = account;
             
             // move file pointer to correct record in file
-            fseek( updatePtr, ( updateData.number - 1 )*sizeof( struct person ), SEEK_SET );
+            fseek( updatePtr, ( account - 1 )*sizeof( struct person ), SEEK_SET );
             
             // write updated record over old record in file
-            fwrite( &updateData, sizeof( struct person ), 1, updatePtr );
+            fwrite( &pData, sizeof( struct person ), 1, updatePtr );
         }
     }
+	fclose( updatePtr );
 }
 
 void deleteRecord( void )       // d) delete a record
@@ -163,34 +174,25 @@ void deleteRecord( void )       // d) delete a record
 	if ( ( deletePtr = fopen( FILENAME, "r+" ) ) == NULL ) {
 		puts( "Problem opening the file for deletion!\n" );
 	} else {
-		printf( "Enter the account number of the record you wish to delete: " );
-        
-        
-        
-        
-        /*
-        printf( "Enter the last name of the record you wish to delete : " );
-		scanf( "%s", &lName );
-        
-		fread( &pData, sizeof( pData ), 1, deletePtr );
-		// while ( !feof( deletePtr ) ) {
-		for ( count = 0; count < 20; count++ ) {
-			printf("\nInside the while for fgets : %d times in", count );
-			fread( &pData, sizeof( pData ), 1, deletePtr );
-			if ( strcmp ( pData.lastName, lName ) == 0 ) { // when there is a match...
-				printf("\nInside the if to compare last names");
-				fwrite( &emptyData, sizeof( emptyData ), 1, deletePtr );
-				printf("\n did fwrite");
-			}
-            // 	}
-		}
-		fclose( deletePtr );
-        
-	}
-}
+		printf( "Enter the account number of the record you wish to delete (1-100): " );
+		scanf( "%d", &accountNum );
 
-         */
-        
+		//move file pointer to correct record
+		fseek( deletePtr, ( accountNum - 1 )*sizeof( struct person ), SEEK_SET );
+
+		fread( &pData, sizeof( struct person ), 1, deletePtr );
+
+		//display error if record doesn't exist
+		if ( pData.number == 0 ) {
+			printf( "Account %d does not exist!\n" , accountNum );
+		} else {  // delete record by replacing existing record with blank record
+			fseek( deletePtr, ( accountNum - 1 )*sizeof( struct person ), SEEK_SET );
+			fwrite( &emptyData, sizeof( struct person ), 1, deletePtr );
+		}
+	}
+	fclose( deletePtr );
+}
+           
 int menuOptions( void )
 {
 	int mChoice;
