@@ -1,0 +1,79 @@
+/* FINAL EXAM 10.14
+ * Matthew Walker, Windows VS2012
+ * Reversing the order of an integer's bits
+ * Algorithm: 1) Get user input of integer
+ * 2) convert integer to bits
+ * 3) reverse the bits
+ * 4) output the original bits and the reversed bits
+ */
+
+#include <stdio.h>
+
+void displayBits( unsigned int value );
+unsigned reverseBits( unsigned int value );
+
+int main( void )
+{
+	unsigned int input;
+
+	// get the input
+	printf( "\n===================="
+			"\nEnter a positive integer so I convert to bits and then reverse it!\n?" );
+	scanf( "%u", &input );
+
+	// display the input in bits
+	printf( "\n==================="
+		"\nThe original integer is...\n " );
+	displayBits( input );
+	puts( "" );
+
+	// reverse the bits
+	input = reverseBits( input );
+
+	// display the reversed bits
+	printf( "\n==================="
+		"\nThe reversed integer is...\n " );
+	displayBits( input );
+	puts( "" );
+
+	return 0;
+}
+
+unsigned reverseBits( unsigned int val )	// to reverse the bits
+{
+	unsigned int mask = 1;  
+	unsigned int temp = 0;  // for storing the reversed bits
+	int count;
+
+	// loop through each bit
+	for ( count = 1; count <= 16; count++ ) {
+		temp <<= 1;  // shift temp right by one bit
+		
+		temp |= ( val & mask );  // seperate the bit and place in temp
+
+		val >>= 1; // shift val left by 1 bit
+	}
+
+	return( temp );	// return the reversed bits
+
+}
+
+void displayBits( unsigned int value )
+{
+	unsigned int c;
+
+	unsigned int displayMask = 1 << 31;
+
+	printf( "%10u = ", value );  // display the integer
+
+	for ( c = 1; c <= 32; ++c ) {  // convert to 1s and 0s in bit format
+		putchar( value & displayMask ? '1' : '0' );
+		value <<= 1;
+
+		if ( c % 8 == 0 ) {  // every 8 characters add a space
+			putchar( ' ' );
+		}
+	}
+	putchar( '\n' );
+}
+
