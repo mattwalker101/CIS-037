@@ -1,0 +1,132 @@
+/* FINAL EXAM 11.7
+ * Matthew Walker, Windows VS2012
+ * Create test data according to specified format into two files
+ * Algorithm: 1) Open files,
+ * 2) Write each record into file master.dat, then same for transaction.dat
+ * 3) Close the files and print results to screen for verification
+ */
+
+#include <stdio.h>
+
+#define MFILENAME "master.dat"
+#define TFILENAME "transaction.dat"
+
+struct record {
+	unsigned int account;
+	char name[ 15 ];
+	float balance;
+};
+
+struct charge {
+	unsigned int account;
+	float amount;
+};
+
+int main()
+{
+	FILE *mfile;
+	FILE *tfile;
+
+	struct record mData1 = { 100, "Alan Jones", 348.17 };
+	struct record mData2 = { 300, "Mary Smith", 27.19 };
+	struct record mData3 = { 500, "Sam Sharp", 0.00 };
+	struct record mData4 = { 700, "Suzy Green", -14.22 };
+	struct record mDataPrint = { 0, "", 0.0 };
+
+	struct charge tData1 = { 100, 27.14 };
+	struct charge tData2 = { 300, 62.11 };
+	struct charge tData3 = { 400, 100.56 };
+	struct charge tData4 = { 900, 82.17 };
+	struct charge tDataPrint = { 0, 0.0 };
+
+	int result;
+
+	// open and add user data to master file
+	printf( "\nOPENING MASTER FILE!\n" );
+	if ( ( mfile = fopen( MFILENAME, "wb" ) ) == NULL ) {
+		puts( "Master file could not be opened!" );
+	} else {     // program enters data for master file from specified table
+		
+		// move file pointer and write mData to mfile
+		fseek( mfile, ( mData1.account - 1)*sizeof( struct record ), SEEK_SET );
+		fwrite( &mData1, sizeof( struct record ), 1, mfile );
+
+		// repeat for next 3 mData
+		fseek( mfile, ( mData2.account - 1)*sizeof( struct record ), SEEK_SET );
+		fwrite( &mData2, sizeof( struct record ), 1, mfile );
+
+		fseek( mfile, ( mData3.account - 1)*sizeof( struct record ), SEEK_SET );
+		fwrite( &mData3, sizeof( struct record ), 1, mfile );
+
+		fseek( mfile, ( mData4.account - 1)*sizeof( struct record ), SEEK_SET );
+		fwrite( &mData4, sizeof( struct record ), 1, mfile );
+	}
+	
+	fclose( mfile );
+	printf( "\nFINISHED LOADING DATA INTO MASTER FILE \"%s\"!\n", MFILENAME );
+
+	// open and add data to transaction file
+	printf( "\nOPENING TRANSACTION FILE!\n" );
+	if ( ( tfile = fopen( TFILENAME, "wb" ) ) == NULL ) {
+		puts( "Transaction file could not be opened!" );
+	} else {     // program enters data for master file from specified table
+		
+		// move file pointer and write mData to mfile
+		fseek( tfile, ( tData1.account - 1)*sizeof( struct charge ), SEEK_SET );
+		fwrite( &tData1, sizeof( struct charge ), 1, tfile );
+
+		// repeat for next 3 mData
+		fseek( tfile, ( tData2.account - 1)*sizeof( struct charge ), SEEK_SET );
+		fwrite( &tData2, sizeof( struct charge ), 1, tfile );
+
+		fseek( tfile, ( tData3.account - 1)*sizeof( struct charge ), SEEK_SET );
+		fwrite( &tData3, sizeof( struct charge ), 1, tfile );
+
+		fseek( tfile, ( tData4.account - 1)*sizeof( struct charge ), SEEK_SET );
+		fwrite( &tData4, sizeof( struct charge ), 1, tfile );
+	}
+	
+	fclose( tfile );
+	printf( "\nFINISHED LOADING DATA INTO TRANSACTION FILE \"%s\"!\n", TFILENAME );
+
+	// show contents of files
+	printf( "\nDisplaying contents of \"%s\"!\n\n", MFILENAME );
+
+	if ( ( mfile = fopen( MFILENAME, "rb" ) ) == NULL ) {
+		puts( "Can't open master file!" );
+	} else {
+		printf( "%8s%16s%10s\n", "Account", "Name", "Balance" );
+		//read records until EOF
+		while ( !feof( mfile ) ) {
+			result = fread( &mDataPrint, sizeof( struct record ), 1, mfile );
+
+			if ( result != 0 && mDataPrint.account != 0 ) {
+				printf( "%8u%16s%10.2f\n", mDataPrint.account, mDataPrint.name, mDataPrint.balance );
+			}
+		}
+		fclose( mfile );
+	}
+	
+	printf( "\nDisplaying contents of \"%s\"!\n\n", TFILENAME );
+	
+	if ( ( tfile = fopen( TFILENAME, "rb" ) ) == NULL ) {
+		puts( "Can't open transaction file!" );
+	} else {
+		printf( "%8s%10s\n", "Account", "Balance" );
+		//read records until EOF
+		while ( !feof( tfile ) ) {
+			result = fread( &tDataPrint, sizeof( struct charge ), 1, tfile );
+
+			if ( result != 0 && tDataPrint.account != 0 ) {
+				printf( "%8u%10.2f\n", tDataPrint.account, tDataPrint.amount );
+			}
+		}
+		fclose( tfile );
+	}
+
+
+	return 0;
+
+}
+
+
