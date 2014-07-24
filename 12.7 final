@@ -1,0 +1,111 @@
+/* Homework 12.7
+ * Matthew Walker, Windows VS2012
+ * Merge two ordered lists
+ */
+#include <stdio.h>
+#include <stdlib.h>
+
+struct listNode {
+	char data;
+	struct listNode *nextPtr; };
+typedef struct listNode node;
+
+void insert( node * );
+void showList( node * );
+node *merge( node*, node *);
+
+int main()
+{
+	int choice;
+	node *list1, *list2;
+
+	do {
+		printf(	"\n Select an option: \n"
+		" 1) Create first list,\n"
+		" 2) Create second list,\n"
+		" 3) Merge the two lists, or\n"
+		" 4) Exit.\n?" );
+
+	scanf( "%d", &choice );
+
+	switch(choice) {
+	case 1: 
+		printf( "\nEnter values for the first list (0 to end):" );
+		list1 = (node *)malloc(sizeof(node *));
+		insert(list1);
+		printf("\nThe first list is = " );
+		showList(list1);
+		break;
+	case 2:
+		printf( "\nEnter values for the second list (0 to end):" );
+		list2 = (node *)malloc(sizeof(node *));
+		insert(list2);
+		printf("\nThe second list is = " );
+		showList(list2);
+		break;
+	case 3:
+		printf("After merging: ");
+		list1 = merge(list1, list2);
+		showList(list1);
+		break;
+	default:
+		printf("\nInvalid choice!\n");
+		break;
+	}
+	} while (choice != 4);
+	return 0;
+}
+
+node *merge ( node *list1, node *list2 )
+{
+	node mergeList;
+	node *temp = &mergeList;
+
+	// until one list is finished, keep comparing elements of the two lists
+	while ( list1->nextPtr != NULL && list2->nextPtr->nextPtr != NULL ) {
+		
+		if ( list1->data < list2-> data ) {
+			temp->nextPtr = list1;
+			list1 = list1->nextPtr;
+		} else {
+			temp->nextPtr = list2;
+			list2 = list2->nextPtr;
+		}
+		temp = temp->nextPtr;
+	}
+	// if any elements left over because other list completed, then append to the list
+	if ( list1->nextPtr == NULL )
+		temp->nextPtr = list2;
+	if (list2->nextPtr == NULL )
+		temp->nextPtr = list1;
+
+	return mergeList.nextPtr;
+}
+
+void insert( node *list)
+{
+	printf( "\nEnter data : ");
+	scanf("%d", &list->data);
+
+	if (list->data == 0) {
+		(list->nextPtr = NULL);
+	} else {
+		list->nextPtr = (node *)malloc(sizeof(node));
+		insert(list->nextPtr);
+	}
+}
+
+
+
+void showList( node *list )
+{
+	node *p;
+	for (p = list; p->nextPtr != NULL; p = p->nextPtr ) {
+		printf( " %d ", p->data);
+	}
+
+	if (list->nextPtr == NULL ) {
+		printf( "The list is empty!\n" );
+	}
+}
+
